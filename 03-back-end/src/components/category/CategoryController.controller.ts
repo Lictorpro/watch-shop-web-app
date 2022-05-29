@@ -4,6 +4,10 @@ import CategoryService, {
 import { Request, Response } from "express";
 import { AddCategoryValidator } from "./dto/IAddCategory.dto";
 import IAddCategory from "./dto/IAddCategory.dto";
+import IEditCategory, {
+  EditCategoryValidator,
+  IEditCategoryDto,
+} from "./dto/IEditCategory.dto";
 
 class CategoryController {
   private categoryService: CategoryService;
@@ -53,6 +57,37 @@ class CategoryController {
       })
       .catch((error) => {
         res.status(400).send(error?.message);
+      });
+  }
+
+  async edit(req: Request, res: Response) {
+    const id: number = +req.params?.id;
+
+    const data = req.body as IEditCategoryDto;
+
+    if (!EditCategoryValidator(data)) {
+      return res.status(400).send(EditCategoryValidator.errors);
+    }
+
+    this.categoryService
+      .getById(id, DefaultCategoryAdapterOptions)
+      .then((result) => {
+        if (result === null) {
+          return res.sendStatus(404);
+        }
+        this.categoryService
+          .editById(id, {
+            name: data.name,
+          })
+          .then((result) => {
+            res.send(result);
+          })
+          .catch((error) => {
+            res.status(400).send(error?.message);
+          });
+      })
+      .catch((error) => {
+        res.status(500).send(error?.message);
       });
   }
 }

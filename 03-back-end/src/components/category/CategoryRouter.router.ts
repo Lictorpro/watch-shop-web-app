@@ -24,6 +24,10 @@ class CategoryRouter implements IRouter {
       "/api/category/:id",
       categoryController.getById.bind(categoryController)
     );
+    application.put(
+      "/api/category/:id",
+      categoryController.edit.bind(categoryController)
+    );
     application.post(
       "/api/category",
       categoryController.add.bind(categoryController)
