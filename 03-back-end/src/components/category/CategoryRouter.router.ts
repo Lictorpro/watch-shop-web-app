@@ -32,6 +32,10 @@ class CategoryRouter implements IRouter {
       "/api/category",
       categoryController.add.bind(categoryController)
     );
+    application.delete(
+      "/api/category/:id",
+      categoryController.deleteCategory.bind(categoryController)
+    );
   }
 }
 

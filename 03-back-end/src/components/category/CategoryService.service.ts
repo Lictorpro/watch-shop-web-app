@@ -2,7 +2,7 @@ import CategoryModel from "./CategoryModel.model";
 import IAddCategory from "./dto/IAddCategory.dto";
 import BaseService from "../../common/BaseService";
 import IAdapterOptions from "../../common/IAdapterOptions.interface";
-import IEditCategory from './dto/IEditCategory.dto';
+import IEditCategory from "./dto/IEditCategory.dto";
 
 interface ICategoryAdapterOptions extends IAdapterOptions {}
 
@@ -29,8 +29,16 @@ class CategoryService extends BaseService<
     return this.baseAdd(data, DefaultCategoryAdapterOptions);
   }
 
-  public async editById(categoryId: number, data: IEditCategory, options: ICategoryAdapterOptions = DefaultCategoryAdapterOptions): Promise<CategoryModel>{
+  public async editById(
+    categoryId: number,
+    data: IEditCategory,
+    options: ICategoryAdapterOptions = DefaultCategoryAdapterOptions
+  ): Promise<CategoryModel> {
     return this.baseEditById(categoryId, data, options);
+  }
+
+  public async deleteById(categoryId: number): Promise<true> {
+    return this.baseDeleteById(categoryId);
   }
 }
 
