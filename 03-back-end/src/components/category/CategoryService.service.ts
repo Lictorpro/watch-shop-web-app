@@ -36,10 +36,6 @@ class CategoryService extends BaseService<
   ): Promise<CategoryModel> {
     return this.baseEditById(categoryId, data, options);
   }
-
-  public async deleteById(categoryId: number): Promise<true> {
-    return this.baseDeleteById(categoryId);
-  }
 }
 
 export default CategoryService;

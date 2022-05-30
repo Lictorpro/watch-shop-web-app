@@ -95,7 +95,7 @@ class CategoryController {
     const categoryId: number = +req.params?.id;
 
     this.categoryService
-      .deleteById(categoryId)
+      .baseDeleteById(categoryId)
       .then((result) => {
         if (result === null) {
           return res.sendStatus(404);

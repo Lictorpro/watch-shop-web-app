@@ -194,7 +194,7 @@ export default abstract class BaseService<
     });
   }
 
-  protected async baseDeleteById(id: number): Promise<true>{
+  public async baseDeleteById(id: number): Promise<true>{
     const tableName = this.tableName();
 
     return new Promise((resolve, reject) => {
