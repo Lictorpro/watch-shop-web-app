@@ -1,4 +1,3 @@
-import CategoryService from "./CategoryService.service";
 import CategoryController from "./CategoryController.controller";
 import * as express from "express";
 import IApplicationResources from "../../common/IAplicationResources.interface";
@@ -9,11 +8,8 @@ class CategoryRouter implements IRouter {
     application: express.Application,
     resources: IApplicationResources
   ) {
-    const categoryService: CategoryService = new CategoryService(
-      resources.databaseConnection
-    );
     const categoryController: CategoryController = new CategoryController(
-      categoryService
+      resources.services
     );
 
     application.get(

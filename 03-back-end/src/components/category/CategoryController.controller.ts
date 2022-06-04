@@ -4,20 +4,15 @@ import CategoryService, {
 import { Request, Response } from "express";
 import { AddCategoryValidator } from "./dto/IAddCategory.dto";
 import IAddCategory from "./dto/IAddCategory.dto";
+import BaseController from "../../common/BaseController";
 import IEditCategory, {
   EditCategoryValidator,
   IEditCategoryDto,
 } from "./dto/IEditCategory.dto";
 
-class CategoryController {
-  private categoryService: CategoryService;
-
-  constructor(categoryService: CategoryService) {
-    this.categoryService = categoryService;
-  }
-
+class CategoryController extends BaseController {
   async getAll(req: Request, res: Response) {
-    this.categoryService
+    this.services.category
       .getAll(DefaultCategoryAdapterOptions)
       .then((result) => {
         res.send(result);
@@ -30,7 +25,7 @@ class CategoryController {
   async getById(req: Request, res: Response) {
     const id: number = +req.params?.id;
 
-    this.categoryService
+    this.services.category
       .getById(id, DefaultCategoryAdapterOptions)
       .then((result) => {
         if (result === null) {
@@ -50,7 +45,7 @@ class CategoryController {
       return res.status(400).send(AddCategoryValidator.errors);
     }
 
-    this.categoryService
+    this.services.category
       .add(data)
       .then((result) => {
         res.send(result);
@@ -69,13 +64,13 @@ class CategoryController {
       return res.status(400).send(EditCategoryValidator.errors);
     }
 
-    this.categoryService
+    this.services.category
       .getById(id, DefaultCategoryAdapterOptions)
       .then((result) => {
         if (result === null) {
           return res.sendStatus(404);
         }
-        this.categoryService
+        this.services.category
           .editById(id, {
             name: data.name,
           })
@@ -94,7 +89,7 @@ class CategoryController {
   async deleteCategory(req: Request, res: Response) {
     const categoryId: number = +req.params?.id;
 
-    this.categoryService
+    this.services.category
       .baseDeleteById(categoryId)
       .then((result) => {
         if (result === null) {
