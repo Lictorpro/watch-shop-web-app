@@ -5,10 +5,10 @@ class ItemModel implements IModel{
   imagePath: string;
   description: string;
   //display_type: string;
-  hasStopwatch: number;
-  hasSubdial: number;
-  hasAlarm: number;
-  hasAutomaticCalibration: number;
+  hasStopwatch: boolean;
+  hasSubdial: boolean;
+  hasAlarm: boolean;
+  hasAutomaticCalibration: boolean;
   //movementType: string;
   bandTypeId: number;
 }

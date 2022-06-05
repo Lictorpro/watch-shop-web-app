@@ -10,6 +10,7 @@ import CategoryController from './components/category/CategoryController.control
 import ItemService from './components/item/ItemService.service';
 import CategoryService from './components/category/CategoryService.service';
 import BandTypeService from './components/band-type/BandTypeService.service';
+import AdministratorService from "./components/administrator/AdministratorService.service";
 
 async function main() {
   const config: IConfig = DevConfig;
@@ -34,7 +35,8 @@ async function main() {
     services:{
       category: new CategoryService(db),
       item: new ItemService(db),
-      bandType: new BandTypeService(db)
+      bandType: new BandTypeService(db),
+      administrator: new AdministratorService(db)
     }
   };
 

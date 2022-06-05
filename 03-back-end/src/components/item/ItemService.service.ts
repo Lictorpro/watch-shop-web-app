@@ -17,17 +17,20 @@ class ItemService extends BaseService<ItemModel, ItemAdapterOptions> {
     item.name = data?.name;
     item.imagePath = data?.image_path;
     item.description = data?.description;
-    item.hasStopwatch = +data?.has_stopwatch;
-    item.hasSubdial = +data?.has_subdial;
-    item.hasAlarm = +data?.has_alarm;
-    item.hasAutomaticCalibration = +data?.has_automatic_calibration;
+    item.hasStopwatch = +data?.has_stopwatch === 1;
+    item.hasSubdial = +data?.has_subdial === 1;
+    item.hasAlarm = +data?.has_alarm === 1;
+    item.hasAutomaticCalibration = +data?.has_automatic_calibration === 1;
     item.bandTypeId = +data?.band_type_id;
 
     return item;
   }
 
-  public async getAllByBandTypeId(bandTypeId: number, options: ItemAdapterOptions): Promise<ItemModel[]> {
-    return this.getAllByFieldNameAndValue('band_type_id', bandTypeId, options);
+  public async getAllByBandTypeId(
+    bandTypeId: number,
+    options: ItemAdapterOptions
+  ): Promise<ItemModel[]> {
+    return this.getAllByFieldNameAndValue("band_type_id", bandTypeId, options);
   }
 }
 

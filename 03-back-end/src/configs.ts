@@ -1,5 +1,6 @@
 import IConfig from "./common/IConfig.interface";
-import CategoryRouter from './components/category/CategoryRouter.router';
+import CategoryRouter from "./components/category/CategoryRouter.router";
+import AdministratorRouter from "./components/administrator/AdministratorRouter.router";
 
 const DevConfig: IConfig = {
   server: {
@@ -29,9 +30,7 @@ const DevConfig: IConfig = {
     charset: "utf8",
     timezone: "+01:00",
   },
-  routers: [
-    new CategoryRouter
-  ]
+  routers: [new CategoryRouter(), new AdministratorRouter()],
 };
 
 export { DevConfig };
