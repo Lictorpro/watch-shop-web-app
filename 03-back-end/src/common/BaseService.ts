@@ -156,6 +156,10 @@ export default abstract class BaseService<
     return new Promise((resolve, reject) => {
 
       const properties = Object.getOwnPropertyNames(data);
+
+      if(properties.length === 0){
+        return reject({message: "There is nothing to change!"})
+      }
       const sqlPairs = properties
         .map((property) => "`" + property + "` = ?")
         .join(", ");
