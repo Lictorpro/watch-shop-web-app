@@ -5,6 +5,7 @@ import {
   IAddAdministratorDto,
 } from "./dto/IAddAdministrator.dto";
 import * as bcrypt from "bcrypt";
+import IEditAdministrator from "./dto/IEditAdministrator.dto";
 import {
   IEditAdministratorDto,
   EditAdministratorValidator,
@@ -69,12 +70,19 @@ export default class AdministratorController extends BaseController {
       return res.status(400).send(EditAdministratorValidator.errors);
     }
 
-    const passwordHash = bcrypt.hashSync(data.password, 10);
+    const serviceData: IEditAdministrator = {};
+
+    if (data.password !== undefined) {
+      const passwordHash = bcrypt.hashSync(data.password, 10);
+      serviceData.password_hash = passwordHash;
+    }
+
+    if (data.isActive !== undefined) {
+      serviceData.is_active = data.isActive ? 1 : 0;
+    }
 
     this.services.administrator
-      .edit(id, {
-        password_hash: passwordHash,
-      })
+      .edit(id, serviceData)
       .then((result) => {
         res.send(result);
       })

@@ -1,4 +1,7 @@
 import IModel from '../../common/IModel.interface';
+import BandTypeModel from '../band-type/BandTypeModel.model';
+import CategoryModel from '../category/CategoryModel.model';
+
 class ItemModel implements IModel{
   itemId: number;
   name: string;
@@ -9,8 +12,17 @@ class ItemModel implements IModel{
   hasSubdial: boolean;
   hasAlarm: boolean;
   hasAutomaticCalibration: boolean;
-  //movementType: string;
   bandTypeId: number;
+  //movementType: string;
+
+  //veza ka band typeu
+  bandType?: BandTypeModel = null;
+
+  categories?: CategoryModel[] = [];
+
+  //videcemo za price
+
+
 }
 
 export default ItemModel;

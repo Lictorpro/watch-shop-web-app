@@ -1,33 +1,40 @@
 import BandTypeModel from "./BandTypeModel.model";
 import * as mysql2 from "mysql2/promise";
-import IAdapterOptions from '../../common/IAdapterOptions.interface';
-import ItemService from '../item/ItemService.service';
+import IAdapterOptions from "../../common/IAdapterOptions.interface";
+import BaseService from "../../common/BaseService";
 
-interface IBandTypeAdapterOptions extends IAdapterOptions{
-    loadItems: boolean;
+interface IBandTypeAdapterOptions extends IAdapterOptions {
+  loadItems: boolean;
 }
 
 const DefaultBandTypeAdapterOptions: IBandTypeAdapterOptions = {
-    loadItems: false
-}
+  loadItems: false,
+};
 
-class BandTypeService{
-  private db: mysql2.Connection;
-
-  constructor(db: mysql2.Connection) {
-    this.db = db;
+class BandTypeService extends BaseService<
+  BandTypeModel,
+  IBandTypeAdapterOptions
+> {
+  tableName(): string {
+    return "band_type";
   }
 
-  private async adaptToModel(data: any, options: IBandTypeAdapterOptions = DefaultBandTypeAdapterOptions): Promise<BandTypeModel> {
+  protected async adaptToModel(
+    data: any,
+    options: IBandTypeAdapterOptions = DefaultBandTypeAdapterOptions
+  ): Promise<BandTypeModel> {
     const bandType: BandTypeModel = new BandTypeModel();
 
     bandType.bandTypeId = +data?.bandType_id; //ovde pisemo imena kolona iz tabele u bazi
     bandType.name = data?.name;
 
-    if(options.loadItems){
-        const itemService: ItemService = new ItemService(this.db);
-
-        bandType.items = await itemService.getAllByBandTypeId(bandType.bandTypeId, options);
+    if (options.loadItems) {
+      bandType.items = await this.services.item.getAllByBandTypeId(
+        bandType.bandTypeId, {
+          loadCatgery: false,
+          loadBandType: false
+        }
+      );
     }
 
     return bandType;
@@ -46,9 +53,11 @@ class BandTypeService{
           const bandTypes: BandTypeModel[] = [];
 
           for (const row of rows as mysql2.RowDataPacket[]) {
-            bandTypes.push(await this.adaptToModel(row, {
-                loadItems: true
-            }));
+            bandTypes.push(
+              await this.adaptToModel(row, {
+                loadItems: true,
+              })
+            );
           }
 
           resolve(bandTypes);
@@ -59,7 +68,7 @@ class BandTypeService{
     });
   }
 
-  public async getById(Id: number): Promise<BandTypeModel> | null {
+ /* public async getById(Id: number): Promise<BandTypeModel> | null {
     return new Promise<BandTypeModel>((resolve, reject) => {
       const sql: string = "SELECT * FROM `band_type` WHERE _id = ?;";
       this.db
@@ -73,15 +82,17 @@ class BandTypeService{
             return resolve(null);
           }
 
-          resolve(await this.adaptToModel(rows[0], {
-              loadItems: true
-          }));
+          resolve(
+            await this.adaptToModel(rows[0], {
+              loadItems: true,
+            })
+          );
         })
         .catch((error) => {
           reject(error);
         });
     });
-  }
+  }*/
 }
 
 export default BandTypeService;
