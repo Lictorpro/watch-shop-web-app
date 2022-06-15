@@ -32,7 +32,8 @@ class BandTypeService extends BaseService<
       bandType.items = await this.services.item.getAllByBandTypeId(
         bandType.bandTypeId, {
           loadCatgery: false,
-          loadBandType: false
+          loadBandType: false,
+          hideInactiveCategories: false
         }
       );
     }

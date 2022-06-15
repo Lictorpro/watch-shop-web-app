@@ -101,6 +101,9 @@ class CategoryController extends BaseController {
         res.status(500).send(error?.message);
       });
   }
+
+  
+
 }
 
 export default CategoryController;

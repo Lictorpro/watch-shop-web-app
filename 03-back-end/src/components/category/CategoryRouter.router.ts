@@ -2,6 +2,8 @@ import CategoryController from "./CategoryController.controller";
 import * as express from "express";
 import IApplicationResources from "../../common/IAplicationResources.interface";
 import IRouter from "../../common/IRouter.interface";
+import ItemController from '../item/ItemController.controller';
+
 
 class CategoryRouter implements IRouter {
   public setupRoutes(
@@ -11,6 +13,8 @@ class CategoryRouter implements IRouter {
     const categoryController: CategoryController = new CategoryController(
       resources.services
     );
+    const itemController: ItemController = new ItemController(resources.services);
+    
 
     application.get(
       "/api/category",
@@ -31,6 +35,18 @@ class CategoryRouter implements IRouter {
     application.delete(
       "/api/category/:id",
       categoryController.deleteCategory.bind(categoryController)
+    );
+    application.get(
+      "/api/category/:cid/item ",
+      itemController.getAllItemsByCategoryId.bind(itemController)
+    );
+    application.post(
+      "/api/category/:cid/item ",
+      itemController.add.bind(itemController)
+    );
+    application.put(
+      "/api/category/:cid/item ",
+      itemController.edit.bind(itemController)
     );
   }
 }

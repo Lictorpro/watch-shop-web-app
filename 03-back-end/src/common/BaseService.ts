@@ -25,6 +25,18 @@ export default abstract class BaseService<
     return this.serviceInstances;
   }
 
+  public startTransaction(){
+    return this.database.beginTransaction()
+  }
+
+  public commitChanges(){
+     return this.database.commit();
+  }
+
+  public rollbackChanges(){
+    return this.database.rollback();
+ }
+
   abstract tableName(): string;
 
   protected abstract adaptToModel(

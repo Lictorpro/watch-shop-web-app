@@ -6,6 +6,12 @@ import IEditCategory from "./dto/IEditCategory.dto";
 
 interface ICategoryAdapterOptions extends IAdapterOptions {}
 
+interface ItemCategoryInterface{
+  category_item_id: number;
+  item_id: number;
+  category_id: number;
+}
+
 const DefaultCategoryAdapterOptions: ICategoryAdapterOptions = {};
 
 class CategoryService extends BaseService<
@@ -35,6 +41,27 @@ class CategoryService extends BaseService<
     options: ICategoryAdapterOptions = DefaultCategoryAdapterOptions
   ): Promise<CategoryModel> {
     return this.baseEditById(categoryId, data, options);
+  }
+
+  public async getAllByItemId(ItemId: number, options: ICategoryAdapterOptions = {}): Promise<CategoryModel[]>{
+    return new Promise((resolve, reject) => {
+      this.getAllFromTableByFieldNameAndValue<ItemCategoryInterface>("gategory_item", "item_id", ItemId).then( async result => {
+        const categoryIds = result.map(ci => ci.category_id);
+
+        const categories: CategoryModel[] = [];
+
+        for (let categoryId of categoryIds){
+          const category = await this.getById(categoryId, options)
+          categories.push(category);
+        }
+
+        resolve(categories);
+
+      }).catch(error => {
+        reject(error);
+      });
+    })
+    
   }
 }
 

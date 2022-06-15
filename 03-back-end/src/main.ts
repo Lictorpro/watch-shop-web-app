@@ -6,11 +6,11 @@ import * as fs from "fs";
 import * as morgan from "morgan";
 import IApplicationResources from "./common/IAplicationResources.interface";
 import * as mysql2 from "mysql2/promise";
-import CategoryController from './components/category/CategoryController.controller';
 import ItemService from './components/item/ItemService.service';
 import CategoryService from './components/category/CategoryService.service';
 import BandTypeService from './components/band-type/BandTypeService.service';
 import AdministratorService from "./components/administrator/AdministratorService.service";
+import { builtinModules } from "module";
 
 async function main() {
   const config: IConfig = DevConfig;
@@ -32,15 +32,19 @@ async function main() {
 
   const applicationResources: IApplicationResources = {
     databaseConnection: db,
+    services: {
+      category: null,
+      bandType: null,
+      item: null,
+      administrator: null
+    }
   };
 
-  applicationResources.services = {
-      category: new CategoryService(applicationResources),
-      item: new ItemService(applicationResources),
-      bandType: new BandTypeService(applicationResources),
-      administrator: new AdministratorService(applicationResources)
-    
-  }
+  applicationResources.services.category = new CategoryService(applicationResources);
+  applicationResources.services.item = new ItemService(applicationResources);
+  applicationResources.services.bandType = new BandTypeService(applicationResources);
+  applicationResources.services.administrator = new AdministratorService(applicationResources);
+
 
   const application: express.Application = express();
 
