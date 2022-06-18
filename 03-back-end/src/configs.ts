@@ -1,6 +1,8 @@
 import IConfig from "./common/IConfig.interface";
 import CategoryRouter from "./components/category/CategoryRouter.router";
 import AdministratorRouter from "./components/administrator/AdministratorRouter.router";
+import UserRouter from './components/user/UserRouter.router';
+import { MailConfigurationParameter } from "./config.mail";
 
 const DevConfig: IConfig = {
   server: {
@@ -30,7 +32,16 @@ const DevConfig: IConfig = {
     charset: "utf8",
     timezone: "+01:00",
   },
-  routers: [new CategoryRouter(), new AdministratorRouter()],
+  routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter()],
+  mail: {
+      host: "smtp.office365.com",
+      port: 587,
+      email: "",
+      password: "",
+      debug: true
+  }
 };
+
+DevConfig.mail = MailConfigurationParameter;
 
 export { DevConfig };

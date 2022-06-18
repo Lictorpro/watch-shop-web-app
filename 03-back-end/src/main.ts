@@ -11,6 +11,7 @@ import CategoryService from './components/category/CategoryService.service';
 import BandTypeService from './components/band-type/BandTypeService.service';
 import AdministratorService from "./components/administrator/AdministratorService.service";
 import { builtinModules } from "module";
+import UserService from "./components/user/UserService.service";
 
 async function main() {
   const config: IConfig = DevConfig;
@@ -36,7 +37,8 @@ async function main() {
       category: null,
       bandType: null,
       item: null,
-      administrator: null
+      administrator: null,
+      user: null
     }
   };
 
@@ -44,6 +46,7 @@ async function main() {
   applicationResources.services.item = new ItemService(applicationResources);
   applicationResources.services.bandType = new BandTypeService(applicationResources);
   applicationResources.services.administrator = new AdministratorService(applicationResources);
+  applicationResources.services.user = new UserService(applicationResources);
 
 
   const application: express.Application = express();
