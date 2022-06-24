@@ -3,6 +3,7 @@ import * as express from "express";
 import IApplicationResources from "../../common/IAplicationResources.interface";
 import IRouter from "../../common/IRouter.interface";
 import ItemController from '../item/ItemController.controller';
+import AuthMiddleware from "../../middlewares/AuthMiddleware";
 
 
 class CategoryRouter implements IRouter {
@@ -18,7 +19,7 @@ class CategoryRouter implements IRouter {
 
     application.get(
       "/api/category",
-      categoryController.getAll.bind(categoryController)
+      AuthMiddleware.getVerifier("administrator", "user"), categoryController.getAll.bind(categoryController)
     );
     application.get(
       "/api/category/:id",
