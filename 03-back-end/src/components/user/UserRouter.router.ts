@@ -2,6 +2,7 @@ import UserController from "./UserController.controller";
 import * as express from "express";
 import IApplicationResources from "../../common/IAplicationResources.interface";
 import IRouter from "../../common/IRouter.interface";
+import AuthMiddleware from '../../middlewares/AuthMiddleware';
 
 class UserRouter implements IRouter {
   public setupRoutes(
@@ -13,11 +14,11 @@ class UserRouter implements IRouter {
 
     application.get(
       "/api/user",
-      userController.getAll.bind(userController)
+      AuthMiddleware.getVerifier("administrator"), userController.getAll.bind(userController)
     );
     application.get(
       "/api/user/:id",
-      userController.getById.bind(userController)
+      AuthMiddleware.getVerifier("administrator", "user"), userController.getById.bind(userController)
     );
     application.post(
         "/api/user/register",
@@ -25,7 +26,7 @@ class UserRouter implements IRouter {
       );
       application.put(
         "/api/user/:id",
-        userController.editById.bind(userController)
+        AuthMiddleware.getVerifier("administrator", "user"), userController.editById.bind(userController)
       );
       application.get("/api/user/activate/:code",
       userController.activate.bind(userController))

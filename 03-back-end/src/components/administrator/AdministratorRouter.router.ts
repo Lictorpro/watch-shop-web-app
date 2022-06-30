@@ -2,6 +2,7 @@ import AdministratorController from "./AdministratorController.controller";
 import * as express from "express";
 import IApplicationResources from "../../common/IAplicationResources.interface";
 import IRouter from "../../common/IRouter.interface";
+import AuthMiddleware from '../../middlewares/AuthMiddleware';
 
 class AdministratorRouter implements IRouter {
   public setupRoutes(
@@ -13,19 +14,19 @@ class AdministratorRouter implements IRouter {
 
     application.get(
       "/api/administrator",
-      administratorController.getAll.bind(administratorController)
+      AuthMiddleware.getVerifier("administrator"), administratorController.getAll.bind(administratorController)
     );
     application.get(
       "/api/administrator/:id",
-      administratorController.getById.bind(administratorController)
+      AuthMiddleware.getVerifier("administrator"), administratorController.getById.bind(administratorController)
     );
     application.post(
         "/api/administrator",
-        administratorController.add.bind(administratorController)
+        AuthMiddleware.getVerifier("administrator"), administratorController.add.bind(administratorController)
       );
       application.put(
         "/api/administrator/:id",
-        administratorController.editById.bind(administratorController)
+        AuthMiddleware.getVerifier("administrator"), administratorController.editById.bind(administratorController)
       );
   }
 }

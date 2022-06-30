@@ -5,6 +5,7 @@ import UserRouter from './components/user/UserRouter.router';
 import { MailConfigurationParameter } from "./config.mail";
 import AuthRouter from './components/auth/AuthRouter.router';
 import { readFileSync } from "fs"
+import CartRouter from "./components/cart/CartRouter.router";
 
 const DevConfig: IConfig = {
   server: {
@@ -34,7 +35,7 @@ const DevConfig: IConfig = {
     charset: "utf8",
     timezone: "+01:00",
   },
-  routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter(), new AuthRouter],
+  routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter(), new AuthRouter(), new CartRouter()],
   mail: {
       host: "smtp.office365.com",
       port: 587,

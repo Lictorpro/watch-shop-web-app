@@ -80,4 +80,21 @@ export default class UserService extends BaseService<
     })
     
   }
+
+  public async getByEmail(email: string, option: UserAdapterOptions = DefaultUserAdapterOptions): Promise<UserModel | null>{
+    return new Promise((resolve, reject) => {
+        this.getAllByFieldNameAndValue("email", email, option)
+        .then(result => {
+            if(result.length === 0){
+                return resolve(null);
+            }
+
+            resolve(result[0]);
+        })
+        .catch(error => {
+            reject(error?.message);
+        })
+    })
+    
+  }
 }

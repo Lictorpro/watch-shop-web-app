@@ -10,8 +10,9 @@ import ItemService from './components/item/ItemService.service';
 import CategoryService from './components/category/CategoryService.service';
 import BandTypeService from './components/band-type/BandTypeService.service';
 import AdministratorService from "./components/administrator/AdministratorService.service";
-import { builtinModules } from "module";
 import UserService from "./components/user/UserService.service";
+import OrderService from "./components/cart/OrderService.service";
+import CartService from "./components/cart/CartService.service";
 
 async function main() {
   const config: IConfig = DevConfig;
@@ -38,7 +39,9 @@ async function main() {
       bandType: null,
       item: null,
       administrator: null,
-      user: null
+      user: null,
+      cart: null,
+      order: null
     }
   };
 
@@ -47,6 +50,8 @@ async function main() {
   applicationResources.services.bandType = new BandTypeService(applicationResources);
   applicationResources.services.administrator = new AdministratorService(applicationResources);
   applicationResources.services.user = new UserService(applicationResources);
+  applicationResources.services.cart = new CartService(applicationResources);
+  applicationResources.services.order =  new OrderService(applicationResources);
 
 
   const application: express.Application = express();

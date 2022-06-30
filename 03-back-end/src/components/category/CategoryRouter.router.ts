@@ -23,31 +23,31 @@ class CategoryRouter implements IRouter {
     );
     application.get(
       "/api/category/:id",
-      categoryController.getById.bind(categoryController)
+      AuthMiddleware.getVerifier("administrator", "user"),categoryController.getById.bind(categoryController)
     );
     application.put(
       "/api/category/:id",
-      categoryController.edit.bind(categoryController)
+      AuthMiddleware.getVerifier("administrator"),categoryController.edit.bind(categoryController)
     );
     application.post(
       "/api/category",
-      categoryController.add.bind(categoryController)
+      AuthMiddleware.getVerifier("administrator"),categoryController.add.bind(categoryController)
     );
     application.delete(
       "/api/category/:id",
-      categoryController.deleteCategory.bind(categoryController)
+      AuthMiddleware.getVerifier("administrator"),categoryController.deleteCategory.bind(categoryController)
     );
     application.get(
       "/api/category/:cid/item ",
-      itemController.getAllItemsByCategoryId.bind(itemController)
+      AuthMiddleware.getVerifier("administrator", "user"),itemController.getAllItemsByCategoryId.bind(itemController)
     );
     application.post(
       "/api/category/:cid/item ",
-      itemController.add.bind(itemController)
+      AuthMiddleware.getVerifier("administrator"),itemController.add.bind(itemController)
     );
     application.put(
       "/api/category/:cid/item ",
-      itemController.edit.bind(itemController)
+      AuthMiddleware.getVerifier("administrator"),itemController.edit.bind(itemController)
     );
   }
 }
