@@ -44,14 +44,14 @@ const AddItemSchema = {
             minLength: 4,
             maxLength: 255 
         },
-        categoryIds:{
-            type: "array",
-            minItems: 0,
-            uniqueItems: true,
-            items: {
-                type: "integer"
-            }
-        }
+         categoryIds:{
+             type: "array",
+             minItems: 0,
+             uniqueItems: true,
+             items: {
+                 type: "integer"
+             }
+         }
     },
     required: [
         "name",
@@ -59,7 +59,7 @@ const AddItemSchema = {
         "description",
         "displayType",
         "movementType",
-        "categoryIds "
+        "categoryIds"
     ],
     additionalProperties: false,
 };

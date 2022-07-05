@@ -6,15 +6,21 @@ import { ICategoryItem } from './dto/IAddItem.dto';
 import IEditItem from './dto/IEditItem.dto ';
 
 export interface ItemAdapterOptions extends IAdapterOptions {
-  loadCatgery: boolean;
+  loadCategory: boolean;
   loadBandType: boolean;
   hideInactiveCategories: boolean;
 }
 
 export class  DefaultItemAdapterOptions implements ItemAdapterOptions{
-  loadCatgery: false;
-  loadBandType: false ;
+  loadCategory: false;
+  loadBandType: false;
   hideInactiveCategories: true;
+}
+
+interface CategoryItem{
+  category_item_id: number;
+  item_id: number;
+  category_id: number;
 }
 
 export default class ItemService extends BaseService<
@@ -42,13 +48,16 @@ export default class ItemService extends BaseService<
       item.hasAutomaticCalibration = +data?.has_automatic_calibration === 1;
       item.bandTypeId = +data?.band_type_id;
 
+      console.log( "Opcije za band type" + options.loadBandType);
       if (options.loadBandType) {
+
+        console.log("Band Type ID: " + item.bandTypeId);
         item.bandType = await this.services.bandType.getById(item.bandTypeId, {
-          loadItems: true,
+          loadItems: false,
         });
       }
 
-      if (options.loadCatgery) {
+      if (options.loadCategory) {
         item.categories = await this.services.category.getAllByItemId(item.itemId, {});
       }
 
@@ -66,14 +75,30 @@ export default class ItemService extends BaseService<
     return this.getAllByFieldNameAndValue("band_type_id", bandTypeId, options);
   }
 
-   async getAllByCategoryId(categoryId: number, options: ItemAdapterOptions){
-     return this.getAllFromTableByFieldNameAndValue("item_category", "category_id", categoryId);
+   public async getAllByCategoryId(categoryId: number, options: ItemAdapterOptions): Promise<ItemModel[]>{
+    return new Promise((resolve, reject) => {
+      this.getAllFromTableByFieldNameAndValue<CategoryItem>("category_item", "category_id", categoryId)
+      .then(async result => {
+        const itemIds = result.map(ii => ii.item_id);
+        const items: ItemModel[] = [];
+
+        for(let itemId of itemIds){
+          const item = await this.getById(itemId, options);
+          items.push(item);
+        }
+
+        resolve(items);
+      })
+      .catch(error => {
+        reject(error);
+      })
+    }) 
    }
 
    async add(data: IAddItem): Promise<ItemModel>{
     return this.baseAdd(data, {
       loadBandType: false,
-      loadCatgery: false,
+      loadCategory: false,
       hideInactiveCategories: true
     })
    }

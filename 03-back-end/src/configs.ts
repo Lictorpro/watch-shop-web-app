@@ -62,6 +62,7 @@ const DevConfig: IConfig = {
             private: readFileSync("./.keystore/app.private", "ascii")
           }
         }
+        
       }
     },
     user:{
@@ -83,7 +84,8 @@ const DevConfig: IConfig = {
           }
         }
       }
-    }
+    },
+    allowAllRoutesWithoutAuthTokens: true //Za vreme developmenta
   }
 };
 

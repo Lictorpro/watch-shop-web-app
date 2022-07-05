@@ -1,6 +1,6 @@
 import BaseService from "../../common/BaseService";
 import CartModel from './CartModel.model';
-import IAdapterOptions from '../../../dist/common/IAdapterOptions.interface';
+import IAdapterOptions from '../../common/IAdapterOptions.interface';
 import { ICartContentItem } from './CartModel.model';
 
 export interface ICartAdapterOptions extends IAdapterOptions{
@@ -58,7 +58,7 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
                 return items[0];
                 
               }).then(item => {
-                return this.services.item.getById(item.item_id, { loadBandType: false, loadCatgery: false, hideInactiveCategories: false })
+                return this.services.item.getById(item.item_id, { loadBandType: false, loadCategory: false, hideInactiveCategories: false })
               })
          })
       }
@@ -127,6 +127,26 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
             cart_content.item_id = ?`;
 
             this.db.execute(sql, [quantity, cartId, itemId])
+            .then(result => {
+                resolve(this.getById(cartId, {}))
+            })
+            .catch(error =>{
+                reject(error);
+            })  
+        })
+
+    }
+
+    public async deleteCartContentItem(cartId: number, itemId: number): Promise<CartModel>{
+        return new Promise((resolve, reject) => {
+            const sql = `DELETE FROM
+            cart_content
+        WHERE
+            cart_content.cart_id = ?
+            AND
+            cart_content.item_id = ?`;
+
+            this.db.execute(sql, [cartId, itemId])
             .then(result => {
                 resolve(this.getById(cartId, {}))
             })

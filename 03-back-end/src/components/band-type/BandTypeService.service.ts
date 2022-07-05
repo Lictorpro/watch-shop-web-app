@@ -25,18 +25,8 @@ class BandTypeService extends BaseService<
   ): Promise<BandTypeModel> {
     const bandType: BandTypeModel = new BandTypeModel();
 
-    bandType.bandTypeId = +data?.bandType_id; //ovde pisemo imena kolona iz tabele u bazi
+    bandType.bandTypeId = +data?.band_type_id; //ovde pisemo imena kolona iz tabele u bazi
     bandType.name = data?.name;
-
-    if (options.loadItems) {
-      bandType.items = await this.services.item.getAllByBandTypeId(
-        bandType.bandTypeId, {
-          loadCatgery: false,
-          loadBandType: false,
-          hideInactiveCategories: false
-        }
-      );
-    }
 
     return bandType;
   }

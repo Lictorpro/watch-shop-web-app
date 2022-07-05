@@ -12,6 +12,7 @@ import IEditCategory, {
 
 class CategoryController extends BaseController {
   async getAll(req: Request, res: Response) {
+    console.log("Test da li oce ista da se ispise u konzolu");
     if(req.authorisation?.role === "administrator"){
       return res.send([
         "test for " + req.authorisation?.identity

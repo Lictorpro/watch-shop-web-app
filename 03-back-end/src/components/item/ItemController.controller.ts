@@ -7,13 +7,9 @@ import { EditItemValidator, IEditItemDto } from './dto/IEditItem.dto ';
 export default class ItemController extends BaseController{
 
     async getAllItemsByCategoryId(req: Request, res: Response){
+       console.log("Usao");
         const categoryId: number = +req.params?.cid;
-
-        const data = req.body as IEditItemDto;
-
-        if(!EditItemValidator(data)){
-          res.status(400).send(EditItemValidator.errors);
-        }
+        console.log(categoryId);
    
         this.services.category
          .getById(categoryId, {})   
@@ -22,7 +18,8 @@ export default class ItemController extends BaseController{
              return res.status(404).send("Category not found!");
            }
            
-           this.services.item.getAllByCategoryId(categoryId, { loadBandType: false, loadCatgery: false, hideInactiveCategories: true }).then(result =>{
+           this.services.item.getAllByCategoryId(categoryId, { loadBandType: true, loadCategory: false, hideInactiveCategories: true }).then(result =>{
+            console.log(result);
              res.send(result);
            }).catch(error => {
              res.status(500).send(error?.message);
@@ -133,7 +130,7 @@ export default class ItemController extends BaseController{
           is_active: data.isActive ? 1 : 0,
         },{
           loadBandType: false,
-          loadCatgery: false,
+          loadCategory: false,
           hideInactiveCategories: false
         })
         return result;
@@ -142,7 +139,7 @@ export default class ItemController extends BaseController{
         await this.services.item.commitChanges();
         res.send(await this.services.item.getById(result.item.itemId,{
           loadBandType: false,
-          loadCatgery: false,
+          loadCategory: false,
           hideInactiveCategories: false
         }));
       })
@@ -158,7 +155,7 @@ export default class ItemController extends BaseController{
           category: category,
           item: await this.services.item.getById(itemId, {
           loadBandType: false,
-          loadCatgery: false,
+          loadCategory: false,
           hideInactiveCategories: false
         })
       }

@@ -1,20 +1,21 @@
 import BaseService from "../../common/BaseService";
-import IAdapterOptions from '../../../dist/common/IAdapterOptions.interface';
+import IAdapterOptions from '../../common/IAdapterOptions.interface';
 import OrderModel from "./OrderModel.model";
+import { IAddOrder } from './dto/IMakeOrder.dto';
 
-export interface IOrderAdaptionOptions extends IAdapterOptions{
+export interface IOrderAdapterOptions extends IAdapterOptions{
     loadCartData: boolean;
 }
 
-export const DefaultOrderAdapterOptions: IOrderAdaptionOptions = {
+export const DefaultOrderAdapterOptions: IOrderAdapterOptions = {
     loadCartData: true
 }
 
-export default class OrderService extends BaseService<OrderModel, IOrderAdaptionOptions>{
+export default class OrderService extends BaseService<OrderModel, IOrderAdapterOptions>{
     tableName(): string {
         return "order";
     }
-    protected adaptToModel(data: any, options: IOrderAdaptionOptions = DefaultOrderAdapterOptions): Promise<OrderModel> {
+    protected adaptToModel(data: any, options: IOrderAdapterOptions = DefaultOrderAdapterOptions): Promise<OrderModel> {
         return new Promise(async resolve => {
             const order = new OrderModel();
 
@@ -32,9 +33,9 @@ export default class OrderService extends BaseService<OrderModel, IOrderAdaption
         });
     }
 
-    public async getByCartId(cartId: number): Promise<OrderModel | null>{
+    public async getByCartId(cartId: number, options: IOrderAdapterOptions = { loadCartData: false }): Promise<OrderModel | null>{
         return new Promise((resolve, reject) =>{
-        this.getAllByFieldNameAndValue("cart_id", cartId, { loadCartData: false })
+        this.getAllByFieldNameAndValue("cart_id", cartId, options)
         .then(result => {
             if(result.length === 0){
                 return resolve(null);
@@ -45,6 +46,39 @@ export default class OrderService extends BaseService<OrderModel, IOrderAdaption
         .catch(error => {
             reject(error);
         })
+        })
+        
+    }
+
+    public async makeOrder(data: IAddOrder): Promise<OrderModel>{
+        return new Promise((resolve, reject) => {
+            this.baseAdd(data, {
+                loadCartData: true
+            })
+            .then(result => {
+                resolve(result);
+            })
+            .catch(error => {
+                reject(error);
+            })
+        })
+    }
+
+    public async getAllByUserId(userId: number): Promise<OrderModel[]>{
+
+        return new Promise(resolve => {
+            this.services.cart.getAllByUserId(userId)
+            .then(async carts =>{
+                const orders = [];
+
+                for(let cart of carts){
+                        orders.push(await this.getByCartId(cart.cartId, {loadCartData: true}));
+
+                    
+                }
+
+                resolve(orders);
+            })
         })
         
     }

@@ -38,15 +38,15 @@ class CategoryRouter implements IRouter {
       AuthMiddleware.getVerifier("administrator"),categoryController.deleteCategory.bind(categoryController)
     );
     application.get(
-      "/api/category/:cid/item ",
+      "/api/category/:cid/item",
       AuthMiddleware.getVerifier("administrator", "user"),itemController.getAllItemsByCategoryId.bind(itemController)
     );
     application.post(
-      "/api/category/:cid/item ",
-      AuthMiddleware.getVerifier("administrator"),itemController.add.bind(itemController)
+      "/api/category/:cid/item",
+      AuthMiddleware.getVerifier("administrator", "user"),itemController.add.bind(itemController) //SKinuti usera ovo je samo za test
     );
     application.put(
-      "/api/category/:cid/item ",
+      "/api/category/:cid/item",
       AuthMiddleware.getVerifier("administrator"),itemController.edit.bind(itemController)
     );
   }
