@@ -10,6 +10,7 @@ export default function Menu(){
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
                         <Link className="nav-item nav-link" to="/categories">Categories</Link>
+                        
                         <Link className="nav-item nav-link" to="/auth/user/login">User login</Link>
                     </div>
                 </div>

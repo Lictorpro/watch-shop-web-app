@@ -4,12 +4,28 @@ import { AddItemValidator, IAddItemDto } from './dto/IAddItem.dto';
 import CategoryModel from '../category/CategoryModel.model';
 import ItemModel from './ItemModel.model';
 import { EditItemValidator, IEditItemDto } from './dto/IEditItem.dto ';
+import { DefaultItemAdapterOptions } from './ItemService.service';
 export default class ItemController extends BaseController{
 
+  async getAll(req: Request, res: Response) {
+    if(req.authorisation?.role === "administrator"){
+      return res.send([
+        "test for " + req.authorisation?.identity
+      ]);
+    }
+
+    this.services.item
+      .getAll({loadBandType: true, loadCategory: false, hideInactiveCategories: false})
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((error) => {
+        res.status(500).send(error?.message);
+      });
+  }
+
     async getAllItemsByCategoryId(req: Request, res: Response){
-       console.log("Usao");
         const categoryId: number = +req.params?.cid;
-        console.log(categoryId);
    
         this.services.category
          .getById(categoryId, {})   
@@ -19,7 +35,6 @@ export default class ItemController extends BaseController{
            }
            
            this.services.item.getAllByCategoryId(categoryId, { loadBandType: true, loadCategory: false, hideInactiveCategories: true }).then(result =>{
-            console.log(result);
              res.send(result);
            }).catch(error => {
              res.status(500).send(error?.message);
@@ -128,6 +143,7 @@ export default class ItemController extends BaseController{
           movement_type: data.movementType,
           display_type: data.displayType,
           is_active: data.isActive ? 1 : 0,
+          price: data.price
         },{
           loadBandType: false,
           loadCategory: false,

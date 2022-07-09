@@ -9,6 +9,7 @@ export interface IAddItemDto{
     description: string;
     displayType: string;
     movementType: string;
+    price: number;
     categoryIds: number[]; // Treba dodati i price
 }
 
@@ -18,6 +19,7 @@ export default interface IAddItem extends IServiceData{
     description: string;
     display_type: string;
     movement_type: string;
+    price: number;
     band_type: number;
 }
 
@@ -51,7 +53,12 @@ const AddItemSchema = {
              items: {
                  type: "integer"
              }
+         },
+         price: {
+            type: "number", 
+            multipleOf: 0.01 
          }
+         
     },
     required: [
         "name",
@@ -59,7 +66,8 @@ const AddItemSchema = {
         "description",
         "displayType",
         "movementType",
-        "categoryIds"
+        "categoryIds",
+        "price"
     ],
     additionalProperties: false,
 };

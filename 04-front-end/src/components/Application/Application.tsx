@@ -5,6 +5,8 @@ import UserLoginPage from '../User/UserLoginPage/UserLoginPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UserCategoryList from '../User/UserCategoryList/UserCategoryList';
 import Menu from '../Menu/Menu';
+import UserCategoryPage from '../User/UserCategoryPage/UserCategoryPage';
+import UserHomePage from '../User/UserHome/UserHomePage';
 
 function Application() {
   return (
@@ -17,7 +19,8 @@ function Application() {
           
           <Route  path='/auth/user/login' element={ <UserLoginPage />} />
           <Route  path='/categories' element={ <UserCategoryList /> } />
-          <Route  path='/' element={ <div></div> } />
+          <Route  path='/' element={ <UserHomePage /> } />
+          <Route  path='/category/:id' element={<UserCategoryPage />} />
         </Routes>
         </BrowserRouter>
     </Container>

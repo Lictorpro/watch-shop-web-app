@@ -104,6 +104,7 @@ export default abstract class BaseService<
   ): Promise<ReturnModel[]> {
     const tableName = this.tableName();
 
+
     return new Promise<ReturnModel[]>((resolve, reject) => {
       const sql: string = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ?`;
       this.db

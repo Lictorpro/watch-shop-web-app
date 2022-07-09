@@ -13,6 +13,7 @@ class ItemModel implements IModel{
   hasAlarm: boolean;
   hasAutomaticCalibration: boolean;
   bandTypeId: number;
+  price: number;
   //movementType: string;
 
   //veza ka band typeu

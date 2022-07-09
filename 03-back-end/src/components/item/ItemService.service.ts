@@ -47,11 +47,10 @@ export default class ItemService extends BaseService<
       item.hasAlarm = +data?.has_alarm === 1;
       item.hasAutomaticCalibration = +data?.has_automatic_calibration === 1;
       item.bandTypeId = +data?.band_type_id;
+      item.price = data?.price;
 
-      console.log( "Opcije za band type" + options.loadBandType);
       if (options.loadBandType) {
 
-        console.log("Band Type ID: " + item.bandTypeId);
         item.bandType = await this.services.bandType.getById(item.bandTypeId, {
           loadItems: false,
         });

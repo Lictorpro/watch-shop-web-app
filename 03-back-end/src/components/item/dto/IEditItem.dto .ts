@@ -10,6 +10,7 @@ export interface IEditItemDto{
     displayType: string;
     movementType: string;
     isActive: boolean;
+    price: number;
     categoryIds: number[]; // Treba dodati i price
 }
 
@@ -19,6 +20,7 @@ export default interface IEditItem extends IServiceData{
     description: string;
     display_type: string;
     movement_type: string;
+    price: number;
     is_active: number;
 }
 
@@ -55,6 +57,10 @@ const EditItemSchema = {
             items: {
                 type: "integer"
             }
+        },
+        price: {
+            type: "number", 
+            multipleOf: 0.01 
         }
     },
     required: [
@@ -64,7 +70,8 @@ const EditItemSchema = {
         "displayType",
         "movementType",
         "categoryIds",
-        "isActive"
+        "isActive",
+        "price"
     ],
     additionalProperties: false,
 };
