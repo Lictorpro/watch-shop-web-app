@@ -4,9 +4,9 @@ import BaseService from "../../common/BaseService";
 import IAdapterOptions from "../../common/IAdapterOptions.interface";
 import IEditCategory from "./dto/IEditCategory.dto";
 
-interface ICategoryAdapterOptions extends IAdapterOptions {}
+interface ICategoryAdapterOptions extends IAdapterOptions { }
 
-interface ItemCategoryInterface{
+interface ItemCategoryInterface {
   category_item_id: number;
   item_id: number;
   category_id: number;
@@ -43,14 +43,14 @@ class CategoryService extends BaseService<
     return this.baseEditById(categoryId, data, options);
   }
 
-  public async getAllByItemId(ItemId: number, options: ICategoryAdapterOptions = {}): Promise<CategoryModel[]>{
+  public async getAllByItemId(ItemId: number, options: ICategoryAdapterOptions = {}): Promise<CategoryModel[]> {
     return new Promise((resolve, reject) => {
-      this.getAllFromTableByFieldNameAndValue<ItemCategoryInterface>("gategory_item", "item_id", ItemId).then( async result => {
+      this.getAllFromTableByFieldNameAndValue<ItemCategoryInterface>("category_item", "item_id", ItemId).then(async result => {
         const categoryIds = result.map(ci => ci.category_id);
 
         const categories: CategoryModel[] = [];
 
-        for (let categoryId of categoryIds){
+        for (let categoryId of categoryIds) {
           const category = await this.getById(categoryId, options)
           categories.push(category);
         }
@@ -61,7 +61,7 @@ class CategoryService extends BaseService<
         reject(error);
       });
     })
-    
+
   }
 }
 

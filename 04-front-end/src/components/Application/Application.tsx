@@ -13,32 +13,40 @@ import UserItemDetailsPage from '../User/UserItemDetailsPage/UserItemDetailsPage
 import AdminAdministratorList from '../Administrator/Dashboard/AdminAdministratorList';
 import AdminAdministratorAdd from '../Administrator/Dashboard/AdminAdministratorAdd';
 import AdminUserList from '../Administrator/Dashboard/AdminUserList';
+import AdminOrderList from '../Administrator/Dashboard/AdminOrderLIst';
+import AuthStore from '../../stores/AuthStore';
+import { Provider } from 'react-redux';
 
 function Application() {
   return (
-    <Container className="mt-4">
+    <Provider store={AuthStore}>
+      <Container className="mt-4">
 
-      <BrowserRouter>
-        <Menu />
-        <Routes>
+        <BrowserRouter>
+          <Menu />
+          <Routes>
 
 
-          <Route path='/auth/user/login' element={<UserLoginPage />} />
-          <Route path='/categories' element={<UserCategoryList />} />
-          <Route path='/' element={<UserHomePage />} />
-          <Route path='/category/:id' element={<UserCategoryPage />} />
-          <Route path='/item/:id' element={<UserItemDetailsPage />} />
+            <Route path='/auth/user/login' element={<UserLoginPage />} />
+            <Route path='/categories' element={<UserCategoryList />} />
+            <Route path='/' element={<UserHomePage />} />
+            <Route path='/category/:id' element={<UserCategoryPage />} />
+            <Route path='/item/:id' element={<UserItemDetailsPage />} />
 
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/admin/dashboard/category/list' element={<AdminCategoryList />} />
-          <Route path='/admin/dashboard/administrator/list' element={<AdminAdministratorList />} />
-          <Route path='/admin/dashboard/administrator/add' element={<AdminAdministratorAdd />} />
+            <Route path='/admin/dashboard' element={<AdminDashboard />} />
+            <Route path='/admin/dashboard/category/list' element={<AdminCategoryList />} />
+            <Route path='/admin/dashboard/administrator/list' element={<AdminAdministratorList />} />
+            <Route path='/admin/dashboard/administrator/add' element={<AdminAdministratorAdd />} />
 
-          <Route path='/admin/dashboard/user/list' element={<AdminUserList />} />
+            <Route path='/admin/dashboard/user/list' element={<AdminUserList />} />
 
-        </Routes>
-      </BrowserRouter>
-    </Container>
+            <Route path='/admin/dashboard/order/list/new' element={<AdminOrderList filter="new" />} />
+            <Route path='/admin/dashboard/order/list/archive' element={<AdminOrderList filter="archived" />} />
+
+          </Routes>
+        </BrowserRouter>
+      </Container>
+    </Provider>
   );
 }
 

@@ -3,7 +3,7 @@ import CartModel from './CartModel.model';
 import IAdapterOptions from '../../common/IAdapterOptions.interface';
 import { ICartContentItem } from './CartModel.model';
 
-export interface ICartAdapterOptions extends IAdapterOptions{
+export interface ICartAdapterOptions extends IAdapterOptions {
 
 }
 
@@ -24,82 +24,82 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
 
             const cartOrder = await this.services.order.getByCartId(cart.cartId);
 
-            if(cartOrder){
+            if (cartOrder) {
                 cart.isUsed = true;
             }
 
             cart.content = [];
 
             this.getAllFromTableByFieldNameAndValue("cart_content", "cart_id", cart.cartId)
-            .then(async result => {
-                cart.content = await Promise.all(result.map(this.fillOutCartContentItemData));
+                .then(async result => {
+                    cart.content = await Promise.all(result.map(this.fillOutCartContentItemData));
 
-                return cart;
-            })
-            .then(cart =>{
-                resolve(cart);
-            })
+                    return cart;
+                })
+                .then(cart => {
+                    resolve(cart);
+                })
 
             resolve(cart);
         });
     }
 
-     private async fillOutCartContentItemData(data: {item_id: number, quantity: number}): Promise<ICartContentItem>{
-          return new Promise(resolve =>{
-              this.getAllFromTableByFieldNameAndValue<{ item_id: number }>("item", "item_id", data.item_id)
-            .then(items =>{
-                if(items.length === 0){
-                    throw {
-                        status: 404,
-                        message: "Item not found!"
+    private async fillOutCartContentItemData(data: { item_id: number, quantity: number }): Promise<ICartContentItem> {
+        return new Promise(resolve => {
+            this.getAllFromTableByFieldNameAndValue<{ item_id: number }>("item", "item_id", data.item_id)
+                .then(items => {
+                    if (items.length === 0) {
+                        throw {
+                            status: 404,
+                            message: "Item not found!"
+                        }
                     }
-                }
 
-                return items[0];
-                
-              }).then(item => {
-                return this.services.item.getById(item.item_id, { loadBandType: false, loadCategory: false, hideInactiveCategories: false })
-              })
-         })
-      }
+                    return items[0];
 
-    async getUserCart(id: number): Promise<CartModel>{
+                }).then(item => {
+                    return this.services.item.getById(item.item_id, { loadBandType: false, loadCategory: false, hideInactiveCategories: false })
+                })
+        })
+    }
+
+    async getUserCart(id: number): Promise<CartModel> {
         return new Promise((resolve, reject) => {
             this.getAllByUserId(id)
-            .then(carts => {
-                if(carts.length === 0){
-                    return this.createNewCart(id);
-                }
+                .then(carts => {
+                    if (carts.length === 0) {
+                        return this.createNewCart(id);
+                    }
 
-                const lastCart = carts[carts.length - 1];
+                    const lastCart = carts[carts.length - 1];
 
-                if(lastCart.isUsed){
-                    return this.createNewCart(id);
-                }
+                    if (lastCart.isUsed) {
+                        return this.createNewCart(id);
+                    }
 
-                return lastCart;
-            })
-            .then(cart => {
-                resolve (cart);
-            })
-            .catch(error => {
-                reject(error);
-            })
+                    return lastCart;
+                })
+                .then(cart => {
+                    resolve(cart);
+                })
+                .catch(error => {
+                    reject(error);
+                })
         });
     }
 
-    async getAllByUserId(userId: number, options: ICartAdapterOptions = {}): Promise<CartModel[]>{
+    async getAllByUserId(userId: number, options: ICartAdapterOptions = {}): Promise<CartModel[]> {
         return this.getAllByFieldNameAndValue("user_id", userId, options);
     }
 
-    private async createNewCart(userId: number): Promise<CartModel>{
+    private async createNewCart(userId: number): Promise<CartModel> {
         return this.baseAdd(
-            {user_id: userId}, {}
+            { user_id: userId }, {}
         );
     }
 
-    public async editCartContentItemQuantity(cartId: number, itemId: number, quantity: number): Promise<CartModel>{
-        return new Promise((resolve, reject) =>{
+    public async editCartContentItemQuantity(cartId: number, itemId: number, quantity: number): Promise<CartModel> {
+        return new Promise((resolve, reject) => {
             const sql = `UPDATE
                        cart_content
                      SET
@@ -107,17 +107,17 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
                     WHERE
                        cart_content.cart_id = ?
                        AND cart_content.item_id = ?`;
-        this.db.execute(sql, [quantity, cartId, itemId])
-        .then(result => {
-            resolve(this.getById(cartId, {}))
-        })
-        .catch(error =>{
-            reject(error);
-        })
+            this.db.execute(sql, [quantity, cartId, itemId])
+                .then(result => {
+                    resolve(this.getById(cartId, {}))
+                })
+                .catch(error => {
+                    reject(error);
+                })
         })
     }
 
-    public async addCartContentItem(cartId: number, itemId: number, quantity: number): Promise<CartModel>{
+    public async addCartContentItem(cartId: number, itemId: number, quantity: number): Promise<CartModel> {
         return new Promise((resolve, reject) => {
             const sql = `INSERT
             cart_content
@@ -127,17 +127,17 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
             cart_content.item_id = ?`;
 
             this.db.execute(sql, [quantity, cartId, itemId])
-            .then(result => {
-                resolve(this.getById(cartId, {}))
-            })
-            .catch(error =>{
-                reject(error);
-            })  
+                .then(result => {
+                    resolve(this.getById(cartId, {}))
+                })
+                .catch(error => {
+                    reject(error);
+                })
         })
 
     }
 
-    public async deleteCartContentItem(cartId: number, itemId: number): Promise<CartModel>{
+    public async deleteCartContentItem(cartId: number, itemId: number): Promise<CartModel> {
         return new Promise((resolve, reject) => {
             const sql = `DELETE FROM
             cart_content
@@ -147,12 +147,12 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
             cart_content.item_id = ?`;
 
             this.db.execute(sql, [cartId, itemId])
-            .then(result => {
-                resolve(this.getById(cartId, {}))
-            })
-            .catch(error =>{
-                reject(error);
-            })  
+                .then(result => {
+                    resolve(this.getById(cartId, {}))
+                })
+                .catch(error => {
+                    reject(error);
+                })
         })
 
     }

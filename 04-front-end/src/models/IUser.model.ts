@@ -1,4 +1,3 @@
-import { StringLiteral } from "typescript";
 
 export default interface IUser {
     userId: number;
