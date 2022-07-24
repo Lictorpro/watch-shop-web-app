@@ -5,17 +5,17 @@ import CategoryModel from '../category/CategoryModel.model';
 import ItemModel from './ItemModel.model';
 import { EditItemValidator, IEditItemDto } from './dto/IEditItem.dto ';
 import { DefaultItemAdapterOptions } from './ItemService.service';
-export default class ItemController extends BaseController{
+export default class ItemController extends BaseController {
 
   async getAll(req: Request, res: Response) {
-    if(req.authorisation?.role === "administrator"){
+    if (req.authorisation?.role === "administrator") {
       return res.send([
         "test for " + req.authorisation?.identity
       ]);
     }
 
     this.services.item
-      .getAll({loadBandType: true, loadCategory: false, hideInactiveCategories: false})
+      .getAll({ loadBandType: true, loadCategory: false, hideInactiveCategories: false })
       .then((result) => {
         res.send(result);
       })
@@ -24,58 +24,74 @@ export default class ItemController extends BaseController{
       });
   }
 
-    async getAllItemsByCategoryId(req: Request, res: Response){
-        const categoryId: number = +req.params?.cid;
-   
-        this.services.category
-         .getById(categoryId, {})   
-         .then((result) => {
-           if (result === null) {
-             return res.status(404).send("Category not found!");
-           }
-           
-           this.services.item.getAllByCategoryId(categoryId, { loadBandType: true, loadCategory: false, hideInactiveCategories: true }).then(result =>{
-             res.send(result);
-           }).catch(error => {
-             res.status(500).send(error?.message);
-           })
-         })
-         .catch((error) => {
-           res.status(500).send(error?.message);
-         });
-     }
+  async getById(req: Request, res: Response) {
+    const id: number = +req.params?.id;
 
-     async add(req: Request, res: Response){ // Ovo je jako upitno braco moracemo kasnije
-      const categoryId: number = +req.params?.cd;
-      const data = req.body as IAddItemDto;
+    this.services.item
+      .getById(id, { loadBandType: true, loadCategory: false, hideInactiveCategories: false })
+      .then((result) => {
+        if (result === null) {
+          return res.sendStatus(404);
+        }
+        res.send(result);
+      })
+      .catch((error) => {
+        res.status(500).send(error?.message);
+      });
+  }
 
-      if (!AddItemValidator(data)){
-        return res.status(400).send(AddItemValidator.errors);
-      }
+  async getAllItemsByCategoryId(req: Request, res: Response) {
+    const categoryId: number = +req.params?.cid;
 
-      this.services.category.getById(categoryId, {}).then(result => {
-        if(result === null){
+    this.services.category
+      .getById(categoryId, {})
+      .then((result) => {
+        if (result === null) {
           return res.status(404).send("Category not found!");
         }
 
-        // this.services.item.getById(newItem.itemId, {
-        //   loadBandType: true,
-        //   loadCatgery: true
-        // }).then(result => {res.send(result)}).cathc(error => {res.status(500).send(error?.message  )}) 
-
+        this.services.item.getAllByCategoryId(categoryId, { loadBandType: true, loadCategory: false, hideInactiveCategories: true }).then(result => {
+          res.send(result);
+        }).catch(error => {
+          res.status(500).send(error?.message);
+        })
       })
-     }
+      .catch((error) => {
+        res.status(500).send(error?.message);
+      });
+  }
 
-     async edit(req: Request, res: Response){
-      const categoryId: number = +req.params?.cid;
+  async add(req: Request, res: Response) { // Ovo je jako upitno braco moracemo kasnije
+    const categoryId: number = +req.params?.cd;
+    const data = req.body as IAddItemDto;
 
-      const data = req.body as IEditItemDto;
+    if (!AddItemValidator(data)) {
+      return res.status(400).send(AddItemValidator.errors);
+    }
 
-      this.services.category.getById(categoryId, {
-      })
+    this.services.category.getById(categoryId, {}).then(result => {
+      if (result === null) {
+        return res.status(404).send("Category not found!");
+      }
+
+      // this.services.item.getById(newItem.itemId, {
+      //   loadBandType: true,
+      //   loadCatgery: true
+      // }).then(result => {res.send(result)}).cathc(error => {res.status(500).send(error?.message  )}) 
+
+    })
+  }
+
+  async edit(req: Request, res: Response) {
+    const categoryId: number = +req.params?.cid;
+
+    const data = req.body as IEditItemDto;
+
+    this.services.category.getById(categoryId, {
+    })
       .then(result => {
-        if(result === null){
-          throw{
+        if (result === null) {
+          throw {
             status: 404,
             message: "Category not found!"
           };
@@ -98,9 +114,9 @@ export default class ItemController extends BaseController{
 
         const avaibableCategoryIds = result.item.categories?.map(c => c.categoryId);
 
-        for(let id of data.categoryIds){
-          if(!avaibableCategoryIds.includes(id)){
-            throw{
+        for (let id of data.categoryIds) {
+          if (!avaibableCategoryIds.includes(id)) {
+            throw {
               status: 400,
               message: "Category " + id + "is not avaibable!"
             }
@@ -108,28 +124,28 @@ export default class ItemController extends BaseController{
         }
 
         const categoryIdsToAdd = newCategoryIds.filter(id => !currentCategoryIds.includes(id));
-        
 
-        for(let id of categoryIdsToAdd){
-          if(!await this.services.item.addItemCategory ({
+
+        for (let id of categoryIdsToAdd) {
+          if (!await this.services.item.addItemCategory({
             item_id: result.item.itemId,
             category_id: id
-          })){
-            throw{
+          })) {
+            throw {
               status: 500,
               message: "Error adding a new category to this item! "
             }
           }
         }
 
-        const categoryIdsToDelete = currentCategoryIds.filter( id => !newCategoryIds.includes(id));
+        const categoryIdsToDelete = currentCategoryIds.filter(id => !newCategoryIds.includes(id));
 
-        for(let id of categoryIdsToDelete){
-          if(!await this.services.item.deleteItemCategory({
+        for (let id of categoryIdsToDelete) {
+          if (!await this.services.item.deleteItemCategory({
             item_id: result.item.itemId,
             category_id: id
-          })){
-            throw{
+          })) {
+            throw {
               status: 500,
               message: "Error deleting an existing category from this item!"
             }
@@ -144,7 +160,7 @@ export default class ItemController extends BaseController{
           display_type: data.displayType,
           is_active: data.isActive ? 1 : 0,
           price: data.price
-        },{
+        }, {
           loadBandType: false,
           loadCategory: false,
           hideInactiveCategories: false
@@ -153,47 +169,47 @@ export default class ItemController extends BaseController{
       })
       .then(async result => {
         await this.services.item.commitChanges();
-        res.send(await this.services.item.getById(result.item.itemId,{
+        res.send(await this.services.item.getById(result.item.itemId, {
           loadBandType: false,
           loadCategory: false,
           hideInactiveCategories: false
         }));
       })
-      .catch(async error => { 
+      .catch(async error => {
         await this.services.item.rollbackChanges();
         res.status(error?.status).send(error?.message)
       })
-      
-     }
 
-     private async retriveItem(category: CategoryModel, itemId: number): Promise<{ category: CategoryModel, item: ItemModel | null }>{
-        return {
-          category: category,
-          item: await this.services.item.getById(itemId, {
-          loadBandType: false,
-          loadCategory: false,
-          hideInactiveCategories: false
-        })
-      }
-     }
+  }
 
-     private checkItem(result: { category: CategoryModel, item: ItemModel | null}): {category: CategoryModel, item: ItemModel}{
-      if (result.item === null){
-        throw{
-          status: 404,
-          message: "Item not found!"
-        };
-      }
+  private async retriveItem(category: CategoryModel, itemId: number): Promise<{ category: CategoryModel, item: ItemModel | null }> {
+    return {
+      category: category,
+      item: await this.services.item.getById(itemId, {
+        loadBandType: false,
+        loadCategory: false,
+        hideInactiveCategories: false
+      })
+    }
+  }
 
-      // if (result.item.bandTypeId === bandTypeId){
-      //   throw{
-      //     status: 404,
-      //     message: "Item not found!"
-      //   };
-      // }
+  private checkItem(result: { category: CategoryModel, item: ItemModel | null }): { category: CategoryModel, item: ItemModel } {
+    if (result.item === null) {
+      throw {
+        status: 404,
+        message: "Item not found!"
+      };
+    }
 
-      return result;
-     }
+    // if (result.item.bandTypeId === bandTypeId){
+    //   throw{
+    //     status: 404,
+    //     message: "Item not found!"
+    //   };
+    // }
+
+    return result;
+  }
 
 
 }

@@ -1,6 +1,6 @@
 import IBandType from './IBandType.model';
 import ICategory from './ICategory.model';
-export default interface IItem{
+export default interface IItem {
     categories: ICategory[];
     itemId: number;
     name: string;
@@ -12,6 +12,6 @@ export default interface IItem{
     hasAutomaticCalibration: boolean;
     bandTypeId: number;
     price: number;
-    brandType: IBandType;
+    bandType: IBandType;
 
 }
