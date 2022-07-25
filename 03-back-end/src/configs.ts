@@ -38,47 +38,47 @@ const DevConfig: IConfig = {
   },
   routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter(), new AuthRouter(), new CartRouter(), new ItemRouter()],
   mail: {
-      host: "smtp.office365.com",
-      port: 587,
-      email: "",
-      password: "",
-      debug: true
+    host: "smtp.office365.com",
+    port: 587,
+    email: "",
+    password: "",
+    debug: true
   },
   auth: {
-    administrator:{
+    administrator: {
       algorithm: "RS256",
       issuer: "PIiVT",
-      tokens:{
-        auth:{
-          duration: 60 * 60 * 24, //24h,
+      tokens: {
+        auth: {
+          duration: 60 * 5,
           keys: {
             public: readFileSync("./.keystore/app.public", "ascii"),
             private: readFileSync("./.keystore/app.private", "ascii")
           }
         },
-        refresh:{
-          duration: 60 * 60 * 24 * 60, //24h,
+        refresh: {
+          duration: 60 * 60 * 24 * 60, //za dev 60 dana
           keys: {
             public: readFileSync("./.keystore/app.public", "ascii"),
             private: readFileSync("./.keystore/app.private", "ascii")
           }
         }
-        
+
       }
     },
-    user:{
+    user: {
       algorithm: "RS256",
       issuer: "PIiVT",
-      tokens:{
-        auth:{
-          duration: 60 * 60 * 24, //24h,
+      tokens: {
+        auth: {
+          duration: 60 * 5,
           keys: {
             public: readFileSync("./.keystore/app.public", "ascii"),
             private: readFileSync("./.keystore/app.private", "ascii")
           }
         },
-        refresh:{
-          duration: 60 * 60 * 24 * 60, //24h,
+        refresh: {
+          duration: 60 * 60 * 24 * 60, //60 dana,
           keys: {
             public: readFileSync("./.keystore/app.public", "ascii"),
             private: readFileSync("./.keystore/app.private", "ascii")
@@ -86,7 +86,7 @@ const DevConfig: IConfig = {
         }
       }
     },
-    allowAllRoutesWithoutAuthTokens: true //Za vreme developmenta
+    allowAllRoutesWithoutAuthTokens: false //Sada je iskljuceno, ako hocu bez tokena onda mora true
   }
 };
 

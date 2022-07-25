@@ -12,11 +12,6 @@ import IEditCategory, {
 
 class CategoryController extends BaseController {
   async getAll(req: Request, res: Response) {
-    if(req.authorisation?.role === "administrator"){
-      return res.send([
-        "test for " + req.authorisation?.identity
-      ]);
-    }
 
     this.services.category
       .getAll(DefaultCategoryAdapterOptions)
@@ -108,7 +103,7 @@ class CategoryController extends BaseController {
       });
   }
 
-  
+
 
 }
 
