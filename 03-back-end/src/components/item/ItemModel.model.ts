@@ -2,26 +2,25 @@ import IModel from '../../common/IModel.interface';
 import BandTypeModel from '../band-type/BandTypeModel.model';
 import CategoryModel from '../category/CategoryModel.model';
 
-class ItemModel implements IModel{
+class ItemModel implements IModel {
   itemId: number;
   name: string;
   imagePath: string;
   description: string;
-  //display_type: string;
+  displayType: "analog" | "digital";
   hasStopwatch: boolean;
   hasSubdial: boolean;
   hasAlarm: boolean;
   hasAutomaticCalibration: boolean;
   bandTypeId: number;
   price: number;
-  //movementType: string;
+  movementType: "automatic" | "mechanical" | "quartz";
 
   //veza ka band typeu
   bandType?: BandTypeModel = null;
 
   categories?: CategoryModel[] = [];
 
-  //videcemo za price
 
 
 }

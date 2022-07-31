@@ -13,5 +13,7 @@ export default interface IItem {
     bandTypeId: number;
     price: number;
     bandType: IBandType;
+    displayType: "analog" | "digital";
+    movementType: "automatic" | "mechanical" | "quartz";
 
 }

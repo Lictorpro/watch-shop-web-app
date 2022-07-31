@@ -12,15 +12,16 @@ export default function MenuUser() {
     return (
 
         <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
-            <Link className="navbar-brand" to="/">Hi, {AuthStore.getState().identity}</Link>
+            <div className="navbar-brand">Hi, {AuthStore.getState().identity}</div>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
 
-                    <div className="nav-item nav-link" style={{ cursor: "pointer" }} onClick={() => doUserLogout()}>Logout</div>
+                    <Link className="nav-item nav-link" to="/">All products</Link>
                     <Link className="nav-item nav-link" to="/categories">Categories</Link>
+                    <button className="btn btn-outline-primary my-2 my-sm-0 pl-5" style={{ cursor: "pointer" }} onClick={() => doUserLogout()}>Logout</button>
 
                 </div>
             </div>

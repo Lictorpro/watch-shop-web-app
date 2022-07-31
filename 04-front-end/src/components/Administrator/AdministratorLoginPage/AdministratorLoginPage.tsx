@@ -37,7 +37,7 @@ export default function AdministratorLoginPage() {
     return (
         <div className="row">
             <div className="col col-xs-12 col-md-6 offset-md-3">
-                <h1 className="h5 mb-3">Log in</h1>
+                <h1 className="h5 mb-3">Administrator Log in</h1>
                 <div className="form-group mb-3">
                     <div className="input-group">
                         <input className="form-control" type="text" placeholder="Enter your username" value={username}

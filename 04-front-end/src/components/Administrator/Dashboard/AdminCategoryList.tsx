@@ -43,7 +43,7 @@ export default function AdminCategoryList() {
 
                     </div>
                 </td>
-                <td>...</td>
+                <td></td>
             </tr>
         )
     }

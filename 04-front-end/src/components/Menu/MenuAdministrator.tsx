@@ -20,7 +20,7 @@ export default function MenuAdministrator() {
                 <div className="navbar-nav">
 
                     <Link className="nav-item nav-link" to="/admin/dashboard">Dashboard</Link>
-                    <div className="nav-item nav-link" style={{ cursor: "pointer" }} onClick={() => doAdminLogout()}>Logout</div>
+                    <button className="btn btn-outline-primary my-2 my-sm-0 pl-5 float-end" style={{ cursor: "pointer" }} onClick={() => doAdminLogout()}>Logout</button>
 
 
                 </div>

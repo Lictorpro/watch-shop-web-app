@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import IOrder from '../../../models/IOrder.model';
 import { api } from '../../../api/api';
 import { localDateFormat } from '../../../helpers/helpers';
-import CartPreview from '../../Cart/CartPreview';
 export interface IAdminOrderListProperties {
     filter: 'new' | 'archived';
 }
@@ -28,7 +27,6 @@ export default function AdminOrderList(props: IAdminOrderListProperties) {
     }
 
     function AdminOrderListRow(props: { order: IOrder }) {
-        const [showCart, setShowCart] = useState<boolean>(false);
 
         return (
             <>
@@ -36,22 +34,7 @@ export default function AdminOrderList(props: IAdminOrderListProperties) {
                     <td>{props.order.orderId}</td>
                     <td>{localDateFormat(props.order.createdAt)}</td>
                     <td>{props.order.status}</td>
-                    <td>
-                        {!showCart && <button className="btn btn-primary btn-sm" onClick={() => { setShowCart(true) }}>Show content</button>}
-                        {showCart && <button className="btn btn-primary btn-sm" onClick={() => { setShowCart(false) }}>Hide content</button>}
-
-                    </td>
                 </tr>
-                {showCart && (
-                    <tr>
-                        <td></td>
-                        <td colSpan={2}><CartPreview cart={props.order.cart} /></td>
-                        <td></td>
-                    </tr>
-
-
-
-                )}
             </>
         )
     }
@@ -59,7 +42,7 @@ export default function AdminOrderList(props: IAdminOrderListProperties) {
 
     return (
         <div>
-            <h1>Order list (showing {props.filter} orders)</h1>
+            <h1 className="h3">Order list (showing {props.filter} orders)</h1>
 
             <table className="table table-hover table-striped">
                 <thead>
@@ -67,7 +50,6 @@ export default function AdminOrderList(props: IAdminOrderListProperties) {
                         <th>ID</th>
                         <th>Created At</th>
                         <th>Status</th>
-                        <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>

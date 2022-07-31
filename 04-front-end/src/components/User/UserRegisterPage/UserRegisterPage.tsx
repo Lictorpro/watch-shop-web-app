@@ -1,43 +1,38 @@
 import { useState } from "react";
 import { api } from '../../../api/api';
-import AuthStore from '../../../stores/AuthStore';
 import { useNavigate } from 'react-router-dom';
 
-export default function UserLoginPage() {
+export default function UserRegisterPage() {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [forename, setForename] = useState<string>("");
+    const [surname, setSurname] = useState<string>("");
     const [error, setError] = useState<string>("");
 
     const navigate = useNavigate();
 
-    const doLogin = () => {
-        api("post", "/api/auth/user/login", "user", { email, password })
+    const doRegister = () => {
+        api("post", "/api/user/register", "user", { email, password, forename, surname })
             .then(res => {
                 if (res.status !== "ok") {
-                    throw new Error("Could not log in. Reason: " + JSON.stringify(res.data));
+                    throw new Error("Could not register your account. Reason: " + JSON.stringify(res.data));
                 }
-
-                return res.data;
             })
-            .then(data => {
-                AuthStore.dispatch({ type: "update", key: "authToken", value: data?.authToken });
-                AuthStore.dispatch({ type: "update", key: "refreshToken", value: data?.refreshToken });
-                AuthStore.dispatch({ type: "update", key: "identity", value: email });
-                AuthStore.dispatch({ type: "update", key: "id", value: +(data?.id) });
-                AuthStore.dispatch({ type: "update", key: "role", value: "user" });
+            .then(() => {
 
-                navigate("/categories", { replace: true })
+
+                navigate("/auth/user/login", { replace: true })
             })
 
             .catch(error => {
-                setError(error?.message ?? "Could not log in!");
+                setError(error?.message ?? "Could not register your account.");
             })
     };
 
     return (
         <div className="row">
             <div className="col col-xs-12 col-md-6 offset-md-3">
-                <h1 className="h5 mb-3">User Log in</h1>
+                <h1 className="h5 mb-3">Register</h1>
                 <div className="form-group mb-3">
                     <div className="input-group">
                         <input className="form-control" type="text" placeholder="Enter your email" value={email}
@@ -51,7 +46,19 @@ export default function UserLoginPage() {
                     </div>
                 </div>
                 <div className="form-group mb-3">
-                    <button className="btn btn-primary px-5" onClick={() => doLogin()}>Log in</button>
+                    <div className="input-group">
+                        <input className="form-control" type="text" placeholder="Enter your forename" value={forename}
+                            onChange={(e) => setForename(e.target.value)} />
+                    </div>
+                </div>
+                <div className="form-group mb-3">
+                    <div className="input-group">
+                        <input className="form-control" type="text" placeholder="Enter your surname" value={surname}
+                            onChange={(e) => setSurname(e.target.value)} />
+                    </div>
+                </div>
+                <div className="form-group mb-3">
+                    <button className="btn btn-primary px-5" onClick={() => doRegister()}>Register</button>
                 </div>
 
                 {error && <p className="alert alert-danger">{error}</p>}

@@ -59,7 +59,7 @@ export default function UserCategoryPage() {
 
             {category && (
                 <div>
-                    <h1>{category?.name}</h1>
+                    <h1 className="h3">{category?.name}</h1>
                     {items && (
                         <div className="container">
                             <div className="row">

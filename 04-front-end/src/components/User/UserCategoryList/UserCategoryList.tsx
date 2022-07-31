@@ -29,10 +29,10 @@ export default function UserCategoryList() {
             {errorMessage && <p>Error: {errorMessage}</p>}
             {!errorMessage &&
 
-                <ul>
+                <ul className="list-group">
                     {categories.map(category => (
-                        <li key={"category-" + category.categoryId}>
-                            <Link to={"/category/" + category.categoryId}>{category.name}</Link>
+                        <li className="pt-3" key={"category-" + category.categoryId} style={{ listStyle: "none", width: 300 }}>
+                            <Link className="list-group-item list-group-item-action" to={"/category/" + category.categoryId}>{category.name}</Link>
                         </li>
                     ))}
                 </ul>

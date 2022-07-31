@@ -11,13 +11,13 @@ export interface ItemAdapterOptions extends IAdapterOptions {
   hideInactiveCategories: boolean;
 }
 
-export class  DefaultItemAdapterOptions implements ItemAdapterOptions{
+export class DefaultItemAdapterOptions implements ItemAdapterOptions {
   loadCategory: false;
   loadBandType: false;
   hideInactiveCategories: true;
 }
 
-interface CategoryItem{
+interface CategoryItem {
   category_item_id: number;
   item_id: number;
   category_id: number;
@@ -48,6 +48,8 @@ export default class ItemService extends BaseService<
       item.hasAutomaticCalibration = +data?.has_automatic_calibration === 1;
       item.bandTypeId = +data?.band_type_id;
       item.price = data?.price;
+      item.movementType = data?.movement_type;
+      item.displayType = data?.display_type;
 
       if (options.loadBandType) {
 
@@ -74,43 +76,43 @@ export default class ItemService extends BaseService<
     return this.getAllByFieldNameAndValue("band_type_id", bandTypeId, options);
   }
 
-   public async getAllByCategoryId(categoryId: number, options: ItemAdapterOptions): Promise<ItemModel[]>{
+  public async getAllByCategoryId(categoryId: number, options: ItemAdapterOptions): Promise<ItemModel[]> {
     return new Promise((resolve, reject) => {
       this.getAllFromTableByFieldNameAndValue<CategoryItem>("category_item", "category_id", categoryId)
-      .then(async result => {
-        const itemIds = result.map(ii => ii.item_id);
-        const items: ItemModel[] = [];
+        .then(async result => {
+          const itemIds = result.map(ii => ii.item_id);
+          const items: ItemModel[] = [];
 
-        for(let itemId of itemIds){
-          const item = await this.getById(itemId, options);
-          items.push(item);
-        }
+          for (let itemId of itemIds) {
+            const item = await this.getById(itemId, options);
+            items.push(item);
+          }
 
-        resolve(items);
-      })
-      .catch(error => {
-        reject(error);
-      })
-    }) 
-   }
+          resolve(items);
+        })
+        .catch(error => {
+          reject(error);
+        })
+    })
+  }
 
-   async add(data: IAddItem): Promise<ItemModel>{
+  async add(data: IAddItem): Promise<ItemModel> {
     return this.baseAdd(data, {
       loadBandType: false,
       loadCategory: false,
       hideInactiveCategories: true
     })
-   }
+  }
 
-   async edit(itemId: number, data: IEditItem, options: ItemAdapterOptions): Promise<ItemModel>{
+  async edit(itemId: number, data: IEditItem, options: ItemAdapterOptions): Promise<ItemModel> {
     return this.baseEditById(itemId, data, options);
-   }
+  }
 
-   async addItemCategory(data: ICategoryItem): Promise<number>{
+  async addItemCategory(data: ICategoryItem): Promise<number> {
     return new Promise((resolve, reject) => {
       const sql: string = "INSERT category_item SET item_id = ?, category_id =?;";
 
-     this.db
+      this.db
         .execute(sql, [data.item_id, data.category_id])
         .then(async (result) => {
           const info: any = result;
@@ -123,14 +125,14 @@ export default class ItemService extends BaseService<
           reject(error);
         });
     })
-     
-   }
 
-   async deleteItemCategory(data: ICategoryItem): Promise<number>{
+  }
+
+  async deleteItemCategory(data: ICategoryItem): Promise<number> {
     return new Promise((resolve, reject) => {
       const sql: string = "DELETE FROM category_item WHERE item_id = ? AND category_id =?;";
 
-     this.db
+      this.db
         .execute(sql, [data.item_id, data.category_id])
         .then(async (result) => {
           const info: any = result;
@@ -143,8 +145,8 @@ export default class ItemService extends BaseService<
           reject(error);
         });
     })
-     
-   }
 
-   
+  }
+
+
 }

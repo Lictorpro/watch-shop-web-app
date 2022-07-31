@@ -11,8 +11,7 @@ export default function AdminDashboard() {
                             <h2 className="h5">Categories</h2>
                         </div>
                         <div className="card-text d-grid gap-3">
-                            <Link className="btn btn-primary" to="/admin/dashboard/category/list">List all categories</Link>
-                            <Link className="btn btn-primary" to="/admin/dashboard/category/add">Add a new category</Link>
+                            <Link className="btn btn-primary" to="/admin/dashboard/category/list">Manage categories</Link>
                         </div>
                     </div>
                 </div>

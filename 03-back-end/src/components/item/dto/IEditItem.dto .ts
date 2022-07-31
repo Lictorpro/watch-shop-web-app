@@ -3,7 +3,7 @@ import IServiceData from '../../../common/IServiceData.interface';
 
 const ajv = new Ajv();
 
-export interface IEditItemDto{
+export interface IEditItemDto {
     name: string;
     imagePath: string;
     description: string;
@@ -14,7 +14,7 @@ export interface IEditItemDto{
     categoryIds: number[]; // Treba dodati i price
 }
 
-export default interface IEditItem extends IServiceData{
+export default interface IEditItem extends IServiceData {
     name: string;
     image_path: string;
     description: string;
@@ -24,10 +24,10 @@ export default interface IEditItem extends IServiceData{
     is_active: number;
 }
 
-export interface ICategoryItem extends IServiceData{
+export interface ICategoryItem extends IServiceData {
     item_id: number;
     category_id: number;
-}  
+}
 
 const EditItemSchema = {
     type: "object",
@@ -35,22 +35,22 @@ const EditItemSchema = {
         name: {
             type: "string",
             minLength: 4,
-            maxLength: 128 
+            maxLength: 128
         },
         imagePath: {
             type: "string",
             minLength: 4,
-            maxLength: 128  
+            maxLength: 128
         },
         description: {
             type: "string",
             minLength: 4,
-            maxLength: 255 
+            maxLength: 255
         },
-        isActive:{
+        isActive: {
             type: "boolean"
         },
-        categoryIds:{
+        categoryIds: {
             type: "array",
             minItems: 0,
             uniqueItems: true,
@@ -59,8 +59,8 @@ const EditItemSchema = {
             }
         },
         price: {
-            type: "number", 
-            multipleOf: 0.01 
+            type: "number",
+            multipleOf: 0.01
         }
     },
     required: [
