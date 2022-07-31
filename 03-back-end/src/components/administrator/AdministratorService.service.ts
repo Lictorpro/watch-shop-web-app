@@ -27,7 +27,7 @@ export default class AdministratorService extends BaseService<
   ): Promise<AdministratorModel> {
     const administrator: AdministratorModel = new AdministratorModel();
 
-    administrator.administratorId = +data?.administrator_id; //ovde pisemo imena kolona iz tabele u bazi
+    administrator.administratorId = +data?.administrator_id;
     administrator.username = data?.username;
     administrator.passwordHash = data?.password_hash;
     administrator.createdAt = data?.created_at;
@@ -44,19 +44,19 @@ export default class AdministratorService extends BaseService<
     return this.baseAdd(data, DefaultAdministratorAdapterOptions);
   }
 
-  public async edit(id: number, data: IEditAdministrator): Promise<AdministratorModel>{
-      return this.baseEditById(id, data, {
-          removePassword: true
-      })
+  public async edit(id: number, data: IEditAdministrator): Promise<AdministratorModel> {
+    return this.baseEditById(id, data, {
+      removePassword: true
+    })
   }
 
-  public async getByUsername(username: string): Promise<AdministratorModel | null>{
-      return new Promise((resolve, reject) => {
-        this.getAllByFieldNameAndValue("username", username, {
-          removePassword: false
-        })
+  public async getByUsername(username: string): Promise<AdministratorModel | null> {
+    return new Promise((resolve, reject) => {
+      this.getAllByFieldNameAndValue("username", username, {
+        removePassword: false
+      })
         .then(result => {
-          if(result.length === 0){
+          if (result.length === 0) {
             return resolve(null)
           }
 
@@ -65,6 +65,6 @@ export default class AdministratorService extends BaseService<
         .catch(error => {
           rejects(error);
         })
-      })
+    })
   }
 }

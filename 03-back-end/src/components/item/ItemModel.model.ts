@@ -16,7 +16,6 @@ class ItemModel implements IModel {
   price: number;
   movementType: "automatic" | "mechanical" | "quartz";
 
-  //veza ka band typeu
   bandType?: BandTypeModel = null;
 
   categories?: CategoryModel[] = [];

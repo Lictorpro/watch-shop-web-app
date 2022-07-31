@@ -66,7 +66,7 @@ export default class UserController extends BaseController {
       })
 
       .then((user) => {
-        //return this.sendRegistrationEmail(user); //otkomentarisati nakon zavrsene registracije
+        //return this.sendRegistrationEmail(user);
         return user;
       })
       .then(async user => {

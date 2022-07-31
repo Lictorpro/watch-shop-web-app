@@ -27,7 +27,7 @@ export default class CartController extends BaseController {
         this.services.cart.getUserCart(req.authorisation?.id)
             .then(cart => {
                 const found = cart.content.find(cartContentItem => {
-                    return cartContentItem.item.itemId === data.itemId //Ovde prikazuje da je content prazan, a to nije dobro, verovatno zbog gresaka oko Item komponente
+                    return cartContentItem.item.itemId === data.itemId
                 })
                 if (found) {
                     this.services.cart.editCartContentItemQuantity(cart.cartId, found.item.itemId, found.quantity + data.quantity)
@@ -62,7 +62,7 @@ export default class CartController extends BaseController {
         this.services.cart.getUserCart(req.authorisation?.id)
             .then(cart => {
                 const found = cart.content.find(cartContentItem => {
-                    return cartContentItem.item.itemId === data.itemId //Ovde prikazuje da je content prazan, a to nije dobro, verovatno zbog gresaka oko Item komponente
+                    return cartContentItem.item.itemId === data.itemId
                 })
 
 

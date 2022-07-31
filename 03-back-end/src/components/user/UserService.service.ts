@@ -3,7 +3,6 @@ import UserModel from "./UserModel.model";
 import IAdapterOptions from "../../common/IAdapterOptions.interface";
 import { IRegisterUserDto, IAddUser } from './dto/IRegisterUser.dto';
 import IEditUser from "./dto/IEditUser.dto";
-//import IEditUser from './dto/IEditUser.dto';
 
 export class UserAdapterOptions implements IAdapterOptions {
   removePassword: boolean;
@@ -29,7 +28,7 @@ export default class UserService extends BaseService<
   ): Promise<UserModel> {
     const user: UserModel = new UserModel();
 
-    user.userId = +data?.user_id; //ovde pisemo imena kolona iz tabele u bazi
+    user.userId = +data?.user_id;
     user.email = data?.email;
     user.passwordHash = data?.password_hash;
     user.createdAt = data?.created_at;
@@ -44,57 +43,57 @@ export default class UserService extends BaseService<
     }
 
     if (options.removeActivationCode) {
-        user.activationCode = null;
-      }
+      user.activationCode = null;
+    }
 
     return user;
   }
 
   public async add(data: IAddUser): Promise<UserModel> {
     return this.baseAdd(data, {
-        removeActivationCode: false,
-        removePassword: true
+      removeActivationCode: false,
+      removePassword: true
     });
   }
 
-  public async edit(id: number, data: IEditUser): Promise<UserModel>{
-      return this.baseEditById(id, data, {
-          removePassword: true,
-          removeActivationCode: true
-      })
+  public async edit(id: number, data: IEditUser): Promise<UserModel> {
+    return this.baseEditById(id, data, {
+      removePassword: true,
+      removeActivationCode: true
+    })
   }
 
-  public async getUserByActivationCode(code: string, option: UserAdapterOptions = DefaultUserAdapterOptions): Promise<UserModel | null>{
+  public async getUserByActivationCode(code: string, option: UserAdapterOptions = DefaultUserAdapterOptions): Promise<UserModel | null> {
     return new Promise((resolve, reject) => {
-        this.getAllByFieldNameAndValue("activation_code", code, option)
+      this.getAllByFieldNameAndValue("activation_code", code, option)
         .then(result => {
-            if(result.length === 0){
-                return resolve(null);
-            }
+          if (result.length === 0) {
+            return resolve(null);
+          }
 
-            resolve(result[0]);
+          resolve(result[0]);
         })
         .catch(error => {
-            reject(error?.message);
+          reject(error?.message);
         })
     })
-    
+
   }
 
-  public async getByEmail(email: string, option: UserAdapterOptions = DefaultUserAdapterOptions): Promise<UserModel | null>{
+  public async getByEmail(email: string, option: UserAdapterOptions = DefaultUserAdapterOptions): Promise<UserModel | null> {
     return new Promise((resolve, reject) => {
-        this.getAllByFieldNameAndValue("email", email, option)
+      this.getAllByFieldNameAndValue("email", email, option)
         .then(result => {
-            if(result.length === 0){
-                return resolve(null);
-            }
+          if (result.length === 0) {
+            return resolve(null);
+          }
 
-            resolve(result[0]);
+          resolve(result[0]);
         })
         .catch(error => {
-            reject(error?.message);
+          reject(error?.message);
         })
     })
-    
+
   }
 }

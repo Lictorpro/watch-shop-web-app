@@ -25,7 +25,7 @@ class BandTypeService extends BaseService<
   ): Promise<BandTypeModel> {
     const bandType: BandTypeModel = new BandTypeModel();
 
-    bandType.bandTypeId = +data?.band_type_id; //ovde pisemo imena kolona iz tabele u bazi
+    bandType.bandTypeId = +data?.band_type_id;
     bandType.name = data?.name;
 
     return bandType;
@@ -59,31 +59,7 @@ class BandTypeService extends BaseService<
     });
   }
 
- /* public async getById(Id: number): Promise<BandTypeModel> | null {
-    return new Promise<BandTypeModel>((resolve, reject) => {
-      const sql: string = "SELECT * FROM `band_type` WHERE _id = ?;";
-      this.db
-        .execute(sql, [Id])
-        .then(async ([rows]) => {
-          if (rows === undefined) {
-            resolve(null);
-          }
 
-          if (Array.isArray(rows) && rows.length === 0) {
-            return resolve(null);
-          }
-
-          resolve(
-            await this.adaptToModel(rows[0], {
-              loadItems: true,
-            })
-          );
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }*/
 }
 
 export default BandTypeService;

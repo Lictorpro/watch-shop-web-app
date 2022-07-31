@@ -5,12 +5,7 @@ export interface IItemPreviewProperties {
 }
 
 export default function ItemPreview(props: IItemPreviewProperties) {
-  // return (
-  //   <div>
-  //     <h2>{ props.item.name }</h2>
-  //     <p>{ props.item.description }</p>
-  //   </div>  
-  // );
+
 
   return (
     <div className="col-sm-4">

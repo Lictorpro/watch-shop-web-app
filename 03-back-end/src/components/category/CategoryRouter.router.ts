@@ -43,7 +43,7 @@ class CategoryRouter implements IRouter {
     );
     application.post(
       "/api/category/:cid/item",
-      AuthMiddleware.getVerifier("administrator", "user"), itemController.add.bind(itemController) //SKinuti usera ovo je samo za test
+      AuthMiddleware.getVerifier("administrator", "user"), itemController.add.bind(itemController)
     );
     application.put(
       "/api/category/:cid/item",

@@ -25,7 +25,7 @@ class CategoryService extends BaseService<
   protected async adaptToModel(data: any): Promise<CategoryModel> {
     const category: CategoryModel = new CategoryModel();
 
-    category.categoryId = +data?.category_id; //ovde pisemo imena kolona iz tabele u bazi
+    category.categoryId = +data?.category_id;
     category.name = data?.name;
 
     return category;

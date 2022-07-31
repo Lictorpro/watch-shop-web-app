@@ -11,7 +11,7 @@ export interface IEditItemDto {
     movementType: string;
     isActive: boolean;
     price: number;
-    categoryIds: number[]; // Treba dodati i price
+    categoryIds: number[];
 }
 
 export default interface IEditItem extends IServiceData {

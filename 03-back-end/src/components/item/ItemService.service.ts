@@ -38,7 +38,7 @@ export default class ItemService extends BaseService<
     return new Promise(async (resolve) => {
       const item: ItemModel = new ItemModel();
 
-      item.itemId = +data?.item_id; //ovde pisemo imena kolona iz tabele u bazi
+      item.itemId = +data?.item_id;
       item.name = data?.name;
       item.imagePath = data?.image_path;
       item.description = data?.description;
@@ -62,7 +62,6 @@ export default class ItemService extends BaseService<
         item.categories = await this.services.category.getAllByItemId(item.itemId, {});
       }
 
-      //Ovde treba dodati logiku za hide kategorija kada budemo vidjeli kako sve treba lepo da radi
 
       resolve(item);
     });

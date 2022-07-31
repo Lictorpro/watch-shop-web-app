@@ -61,7 +61,7 @@ export default class ItemController extends BaseController {
       });
   }
 
-  async add(req: Request, res: Response) { // Ovo je jako upitno braco moracemo kasnije
+  async add(req: Request, res: Response) {
     const categoryId: number = +req.params?.cd;
     const data = req.body as IAddItemDto;
 
@@ -73,11 +73,6 @@ export default class ItemController extends BaseController {
       if (result === null) {
         return res.status(404).send("Category not found!");
       }
-
-      // this.services.item.getById(newItem.itemId, {
-      //   loadBandType: true,
-      //   loadCatgery: true
-      // }).then(result => {res.send(result)}).cathc(error => {res.status(500).send(error?.message  )}) 
 
     })
   }
@@ -109,7 +104,6 @@ export default class ItemController extends BaseController {
       })
       .then(async result => {
         const currentCategoryIds = result.item.categories?.map(category => category.categoryId);
-        //const data = req.body as IEditItemDto;
         const newCategoryIds = data.categoryIds;
 
         const avaibableCategoryIds = result.item.categories?.map(c => c.categoryId);
@@ -201,12 +195,6 @@ export default class ItemController extends BaseController {
       };
     }
 
-    // if (result.item.bandTypeId === bandTypeId){
-    //   throw{
-    //     status: 404,
-    //     message: "Item not found!"
-    //   };
-    // }
 
     return result;
   }

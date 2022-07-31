@@ -25,17 +25,17 @@ export default abstract class BaseService<
     return this.serviceInstances;
   }
 
-  public startTransaction(){
+  public startTransaction() {
     return this.database.beginTransaction()
   }
 
-  public commitChanges(){
-     return this.database.commit();
+  public commitChanges() {
+    return this.database.commit();
   }
 
-  public rollbackChanges(){
+  public rollbackChanges() {
     return this.database.rollback();
- }
+  }
 
   abstract tableName(): string;
 
@@ -128,7 +128,7 @@ export default abstract class BaseService<
     });
   }
 
-  protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName: string, fieldName: string, value: any): Promise<OwnReturnType[]>{
+  protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName: string, fieldName: string, value: any): Promise<OwnReturnType[]> {
     return new Promise((resolve, reject) => {
       const sql = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ?`;
 
@@ -212,7 +212,7 @@ export default abstract class BaseService<
         .map((property) => "`" + property + "` = ?")
         .join(", ");
       const values = properties.map((property) => data[property]);
-      values.push(id); // Za WHERE tablename_id =?
+      values.push(id);
 
       const sql: string =
         "UPDATE `" +
