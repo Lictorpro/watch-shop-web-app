@@ -20,6 +20,9 @@ export default class AdministratorService extends BaseService<
   tableName(): string {
     return "administrator";
   }
+  sortField(): string {
+    return "administrator_id";
+  }
 
   protected async adaptToModel(
     data: any,

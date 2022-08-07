@@ -39,6 +39,8 @@ export default abstract class BaseService<
 
   abstract tableName(): string;
 
+  abstract sortField(): string;
+
   protected abstract adaptToModel(
     data: any,
     options: AdapterOptions
@@ -46,9 +48,10 @@ export default abstract class BaseService<
 
   public getAll(options: AdapterOptions): Promise<ReturnModel[]> {
     const tableName = this.tableName();
+    const sortField = this.sortField();
 
     return new Promise<ReturnModel[]>((resolve, reject) => {
-      const sql: string = `SELECT * FROM \`${tableName}\`;`;
+      const sql: string = `SELECT * FROM \`${tableName}\` ORDER BY \`${sortField}\` asc;`;
       this.db
         .execute(sql)
         .then(async ([rows]) => {
@@ -103,10 +106,11 @@ export default abstract class BaseService<
     options: AdapterOptions
   ): Promise<ReturnModel[]> {
     const tableName = this.tableName();
+    const sortField = this.sortField();
 
 
     return new Promise<ReturnModel[]>((resolve, reject) => {
-      const sql: string = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ?`;
+      const sql: string = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ? ORDER BY \`${sortField}\` asc;`;
       this.db
         .execute(sql, [value])
         .then(async ([rows]) => {
@@ -128,9 +132,9 @@ export default abstract class BaseService<
     });
   }
 
-  protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName: string, fieldName: string, value: any): Promise<OwnReturnType[]> {
+  protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName: string, fieldName: string, sortField: string, value: any): Promise<OwnReturnType[]> {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ?`;
+      const sql = `SELECT * FROM \`${tableName}\` WHERE \`${fieldName}\` = ? ORDER BY \`${sortField}\` asc;`;
 
       this.db
         .execute(sql, [value])

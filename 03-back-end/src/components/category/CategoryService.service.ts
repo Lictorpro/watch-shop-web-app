@@ -21,6 +21,9 @@ class CategoryService extends BaseService<
   tableName(): string {
     return "category";
   }
+  sortField(): string {
+    return "category_id";
+  }
 
   protected async adaptToModel(data: any): Promise<CategoryModel> {
     const category: CategoryModel = new CategoryModel();
@@ -45,7 +48,7 @@ class CategoryService extends BaseService<
 
   public async getAllByItemId(ItemId: number, options: ICategoryAdapterOptions = {}): Promise<CategoryModel[]> {
     return new Promise((resolve, reject) => {
-      this.getAllFromTableByFieldNameAndValue<ItemCategoryInterface>("category_item", "item_id", ItemId).then(async result => {
+      this.getAllFromTableByFieldNameAndValue<ItemCategoryInterface>("category_item", "item_id", "price", ItemId).then(async result => {
         const categoryIds = result.map(ci => ci.category_id);
 
         const categories: CategoryModel[] = [];

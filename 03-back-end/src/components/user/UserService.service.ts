@@ -22,6 +22,10 @@ export default class UserService extends BaseService<
     return "user";
   }
 
+  sortField(): string {
+    return "user_id";
+  }
+
   protected async adaptToModel(
     data: any,
     options: UserAdapterOptions = DefaultUserAdapterOptions

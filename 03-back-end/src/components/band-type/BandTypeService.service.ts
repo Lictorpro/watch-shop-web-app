@@ -21,6 +21,10 @@ class BandTypeService extends BaseService<
     return "band_type";
   }
 
+  sortField(): string {
+    return "band_type_id";
+  }
+
   protected async adaptToModel(
     data: any,
     options: IBandTypeAdapterOptions = DefaultBandTypeAdapterOptions

@@ -12,6 +12,9 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
     tableName(): string {
         return "cart";
     }
+    sortField(): string {
+        return "cart_id";
+    }
     protected adaptToModel(data: any, options: ICartAdapterOptions = {}): Promise<CartModel> {
         return new Promise(async resolve => {
             const cart = new CartModel();
@@ -30,7 +33,7 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
 
             cart.content = [];
 
-            this.getAllFromTableByFieldNameAndValue("cart_content", "cart_id", cart.cartId)
+            this.getAllFromTableByFieldNameAndValue("cart_content", "cart_id", "cart_id", cart.cartId)
                 .then(async result => {
                     cart.content = await Promise.all(result.map(this.fillOutCartContentItemData));
 
@@ -46,7 +49,7 @@ export default class CartService extends BaseService<CartModel, ICartAdapterOpti
 
     private async fillOutCartContentItemData(data: { item_id: number, quantity: number }): Promise<ICartContentItem> {
         return new Promise(resolve => {
-            this.getAllFromTableByFieldNameAndValue<{ item_id: number }>("item", "item_id", data.item_id)
+            this.getAllFromTableByFieldNameAndValue<{ item_id: number }>("item", "item_id", "price", data.item_id)
                 .then(items => {
                     if (items.length === 0) {
                         throw {

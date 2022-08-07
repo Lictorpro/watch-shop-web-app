@@ -31,6 +31,10 @@ export default class ItemService extends BaseService<
     return "item";
   }
 
+  sortField(): string {
+    return "price";
+  }
+
   protected async adaptToModel(
     data: any,
     options: ItemAdapterOptions
@@ -77,7 +81,7 @@ export default class ItemService extends BaseService<
 
   public async getAllByCategoryId(categoryId: number, options: ItemAdapterOptions): Promise<ItemModel[]> {
     return new Promise((resolve, reject) => {
-      this.getAllFromTableByFieldNameAndValue<CategoryItem>("category_item", "category_id", categoryId)
+      this.getAllFromTableByFieldNameAndValue<CategoryItem>("category_item", "category_id", "item_id", categoryId)
         .then(async result => {
           const itemIds = result.map(ii => ii.item_id);
           const items: ItemModel[] = [];
@@ -86,6 +90,10 @@ export default class ItemService extends BaseService<
             const item = await this.getById(itemId, options);
             items.push(item);
           }
+
+          items.sort((i1, i2) =>
+            i1.price - i2.price
+          );
 
           resolve(items);
         })
