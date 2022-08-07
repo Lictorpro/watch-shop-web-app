@@ -2,6 +2,8 @@ import BandTypeModel from "./BandTypeModel.model";
 import * as mysql2 from "mysql2/promise";
 import IAdapterOptions from "../../common/IAdapterOptions.interface";
 import BaseService from "../../common/BaseService";
+import IAddBandType from './dto/IAddBandType.dto.';
+import IEditBandType from './dto/IEditBandType.dto';
 
 interface IBandTypeAdapterOptions extends IAdapterOptions {
   loadItems: boolean;
@@ -59,7 +61,20 @@ class BandTypeService extends BaseService<
     });
   }
 
+  public async add(data: IAddBandType): Promise<BandTypeModel> {
+    return this.baseAdd(data, DefaultBandTypeAdapterOptions);
+  }
+
+  public async editById(
+    bandTypeId: number,
+    data: IEditBandType,
+    options: IBandTypeAdapterOptions = DefaultBandTypeAdapterOptions
+  ): Promise<BandTypeModel> {
+    return this.baseEditById(bandTypeId, data, options);
+  }
+
 
 }
 
 export default BandTypeService;
+export { DefaultBandTypeAdapterOptions };

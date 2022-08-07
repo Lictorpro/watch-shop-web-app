@@ -18,6 +18,7 @@ import AuthStore from '../../stores/AuthStore';
 import { Provider } from 'react-redux';
 import AdministratorLoginPage from '../Administrator/AdministratorLoginPage/AdministratorLoginPage';
 import UserRegisterPage from '../User/UserRegisterPage/UserRegisterPage';
+import AdminBandTypeList from '../Administrator/Dashboard/AdminBandTypeList';
 
 function Application() {
   return (
@@ -28,12 +29,11 @@ function Application() {
           <Menu />
           <Routes>
 
-
             <Route path='/auth/user/login' element={<UserLoginPage />} />
             <Route path='/auth/user/register' element={<UserRegisterPage />} />
             <Route path='/auth/administrator/login' element={<AdministratorLoginPage />} />
             <Route path='/categories' element={<UserCategoryList />} />
-            <Route path='/' element={<UserHomePage />} />
+            <Route path='/' element={<UserLoginPage />} />
             <Route path='/category/:id' element={<UserCategoryPage />} />
             <Route path='/item/:id' element={<UserItemDetailsPage />} />
 
@@ -43,6 +43,9 @@ function Application() {
             <Route path='/admin/dashboard/administrator/add' element={<AdminAdministratorAdd />} />
 
             <Route path='/admin/dashboard/user/list' element={<AdminUserList />} />
+
+            <Route path='/admin/dashboard/bandType/list' element={<AdminBandTypeList />} />
+            <Route path='/allProducts' element={<UserHomePage />} />
 
             <Route path='/admin/dashboard/order/list/new' element={<AdminOrderList filter="new" />} />
             <Route path='/admin/dashboard/order/list/archive' element={<AdminOrderList filter="archived" />} />

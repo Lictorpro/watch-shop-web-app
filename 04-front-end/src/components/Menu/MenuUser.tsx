@@ -19,7 +19,7 @@ export default function MenuUser() {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
 
-                    <Link className="nav-item nav-link" to="/">All products</Link>
+                    <Link className="nav-item nav-link" to="/allProducts">All products</Link>
                     <Link className="nav-item nav-link" to="/categories">Categories</Link>
                     <button className="btn btn-outline-primary my-2 my-sm-0 pl-5" style={{ cursor: "pointer" }} onClick={() => doUserLogout()}>Logout</button>
 

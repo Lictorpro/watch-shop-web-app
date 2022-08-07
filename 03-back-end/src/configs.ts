@@ -7,6 +7,7 @@ import AuthRouter from './components/auth/AuthRouter.router';
 import { readFileSync } from "fs"
 import CartRouter from "./components/cart/CartRouter.router";
 import ItemRouter from './components/item/ItemRouter.router';
+import BandTypeRouter from './components/band-type/BandTypeRouter.router';
 
 const DevConfig: IConfig = {
   server: {
@@ -36,7 +37,7 @@ const DevConfig: IConfig = {
     charset: "utf8",
     timezone: "+01:00",
   },
-  routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter(), new AuthRouter(), new CartRouter(), new ItemRouter()],
+  routers: [new CategoryRouter(), new AdministratorRouter(), new UserRouter(), new AuthRouter(), new CartRouter(), new ItemRouter(), new BandTypeRouter],
   mail: {
     host: "smtp.office365.com",
     port: 587,
