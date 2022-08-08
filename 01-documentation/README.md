@@ -24,7 +24,7 @@ Aplikacija treba da omogući administratorima da dodaju nove ručne satove u baz
 
 ## Baza podataka
 
-<img src="watch-shop-web-app-database-model.png"
+<img src="../02-resources/watch-shop-web-app-database-model.png"
      alt="Database model"
      style="float: left; margin-right: 10px;" />
 
