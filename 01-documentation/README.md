@@ -24,10 +24,22 @@ Aplikacija treba da omogući administratorima da dodaju nove ručne satove u baz
 
 ## Baza podataka
 
+<img src="watch-shop-web-app-database-model.png"
+     alt="Database model"
+     style="float: left; margin-right: 10px;" />
+
 ## Use-Case dijagrami
+
+Link ka figmi u resources folderu
 
 ### Uloge korisnika
 
 **Administrator**
 
+Username: administrator
+Password: Admin123
+
 **Korisnik**
+
+Usrname: david@gmail.com
+Password: Lozinka123!
