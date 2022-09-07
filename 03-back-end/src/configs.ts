@@ -2,7 +2,7 @@ import IConfig from "./common/IConfig.interface";
 import CategoryRouter from "./components/category/CategoryRouter.router";
 import AdministratorRouter from "./components/administrator/AdministratorRouter.router";
 import UserRouter from './components/user/UserRouter.router';
-import { MailConfigurationParameter } from "./config.mail";
+//import { MailConfigurationParameter } from "./config.mail";
 import AuthRouter from './components/auth/AuthRouter.router';
 import { readFileSync } from "fs"
 import CartRouter from "./components/cart/CartRouter.router";
@@ -91,6 +91,6 @@ const DevConfig: IConfig = {
   }
 };
 
-DevConfig.mail = MailConfigurationParameter;
+//DevConfig.mail = MailConfigurationParameter;
 
 export { DevConfig };
